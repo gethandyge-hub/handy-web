@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>HANDY - საქმე შენს უბანში</title>
-  <!-- Telegram WebApp SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- Supabase JS Client -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>HANDY v2.0</title>
+  
+  <script src="https://telegram.org/js/telegram-web-app.js?v=2.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
     :root {
-      --bg-color: var(--tg-theme-bg-color, #0f172a);
-      --card-bg: var(--tg-theme-secondary-bg-color, #1e293b);
-      --text-color: var(--tg-theme-text-color, #f8fafc);
-      --subtext-color: var(--tg-theme-hint-color, #94a3b8);
+      --bg-color: #0d131f;
+      --card-bg: #1a2332;
+      --text-color: #f8fafc;
+      --subtext-color: #94a3b8;
       --primary-color: #f97316;
       --accent-green: #10b981;
       --border-radius: 16px;
@@ -26,25 +27,22 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
       padding-bottom: 80px;
-      user-select: none;
     }
 
-    /* Header */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px;
       background-color: var(--card-bg);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -60,7 +58,7 @@
     }
 
     .badge-status {
-      background: rgba(16, 185, 129, 0.15);
+      background: rgba(16, 185, 129, 0.2);
       color: var(--accent-green);
       font-size: 0.75rem;
       padding: 4px 10px;
@@ -68,19 +66,17 @@
       font-weight: 600;
     }
 
-    /* Main Container */
     .container {
       padding: 16px;
     }
 
-    /* Stats Card */
     .stats-card {
       background: var(--card-bg);
       border-radius: var(--border-radius);
       padding: 20px;
       text-align: center;
       margin-bottom: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .location-tag {
@@ -107,30 +103,19 @@
       color: #fff;
     }
 
-    .stats-subtext {
-      color: var(--subtext-color);
-      font-size: 0.85rem;
-    }
-
-    /* Section Title */
     .section-title {
       font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 12px;
     }
 
-    /* Job Card */
     .job-card {
       background: var(--card-bg);
       border-radius: var(--border-radius);
       padding: 16px;
       margin-bottom: 12px;
-      transition: transform 0.1s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
       cursor: pointer;
-    }
-
-    .job-card:active {
-      transform: scale(0.98);
     }
 
     .job-header {
@@ -155,39 +140,28 @@
       color: var(--subtext-color);
       font-size: 0.8rem;
       margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
     }
 
     .btn-apply {
       width: 100%;
-      background: rgba(255,255,255,0.08);
-      color: var(--text-color);
+      background: var(--primary-color);
+      color: white;
       border: none;
       padding: 10px;
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
-    .btn-apply:hover {
-      background: var(--primary-color);
-      color: white;
-    }
-
-    /* Bottom Navigation */
     .nav-bar {
       position: fixed;
       bottom: 0;
-      left: 0;
-      right: 0;
+      left: 0; right: 0;
       background: var(--card-bg);
       display: flex;
       justify-content: space-around;
       padding: 12px 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
+      border-top: 1px solid rgba(255,255,255,0.08);
     }
 
     .nav-item {
@@ -197,25 +171,20 @@
       gap: 4px;
       color: var(--subtext-color);
       font-size: 0.75rem;
-      cursor: pointer;
       background: none;
       border: none;
+      cursor: pointer;
     }
 
     .nav-item.active {
       color: var(--primary-color);
     }
 
-    .nav-item i {
-      font-size: 1.2rem;
-    }
-
-    /* Modal Window */
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       z-index: 1000;
       align-items: flex-end;
     }
@@ -231,12 +200,6 @@
       padding: 24px;
       max-height: 85vh;
       overflow-y: auto;
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
     }
 
     .modal-header {
@@ -254,7 +217,6 @@
       cursor: pointer;
     }
 
-    /* Form Styles */
     .form-group {
       margin-bottom: 14px;
     }
@@ -287,21 +249,22 @@
       font-size: 1rem;
       margin-top: 10px;
       cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: block;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <div class="logo">
-      <i class="fa-solid fa-handshake"></i> HANDY
+      <i class="fa-solid fa-handshake"></i> HANDY <span style="font-size: 10px; color: #94a3b8;">v2</span>
     </div>
     <div class="badge-status">ავტორიზებული</div>
   </header>
 
-  <!-- Main View -->
-  <div id="view-home" class="container">
+  <div class="container">
     <div class="stats-card">
       <div class="location-tag">
         <i class="fa-solid fa-location-dot"></i> ბათუმი / ცენტრი
@@ -311,24 +274,20 @@
     </div>
 
     <div class="section-title">ბოლო ვაკანსიები</div>
-    <div id="job-list">
-      <!-- იტვირთება ბაზიდან -->
-    </div>
+    <div id="job-list"></div>
   </div>
 
-  <!-- Bottom Navigation -->
   <div class="nav-bar">
     <button class="nav-item active" onclick="switchTab('home')">
-      <i class="fa-solid fa-house"></i>
+      <i class="fa-solid fa-house" style="font-size: 1.2rem;"></i>
       <span>მთავარი</span>
     </button>
     <button class="nav-item" onclick="openCreateModal()">
-      <i class="fa-solid fa-plus"></i>
-      <span>დაპოსტვა</span>
+      <i class="fa-solid fa-plus-circle" style="font-size: 1.2rem; color: var(--primary-color);"></i>
+      <span style="color: var(--primary-color); font-weight: bold;">დაპოსტვა</span>
     </button>
   </div>
 
-  <!-- Modal: Job Details / Apply -->
   <div id="modal-details" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -338,13 +297,12 @@
       <p id="modal-location" style="color: var(--subtext-color); margin-bottom: 10px;"></p>
       <h2 id="modal-price" style="color: var(--accent-green); margin-bottom: 16px;"></h2>
       <p id="modal-desc" style="line-height: 1.5; margin-bottom: 20px;"></p>
-      <a id="btn-contact" href="#" target="_blank" class="btn-submit" style="display: block; text-align: center; text-decoration: none;">
+      <a id="btn-contact" href="#" target="_blank" class="btn-submit">
         <i class="fa-brands fa-telegram"></i> დამსაქმებელთან დაკავშირება
       </a>
     </div>
   </div>
 
-  <!-- Modal: Create Job -->
   <div id="modal-create" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -378,27 +336,22 @@
   </div>
 
   <script>
-    // Initialize Telegram WebApp
     const tg = window.Telegram?.WebApp;
     if (tg) {
       tg.ready();
       tg.expand();
     }
 
-    // Initialize Supabase (შეცვალე შენი მონაცემებით თუ საჭიროა)
     const SUPABASE_URL = "https://YOUR_SUPABASE_PROJECT.supabase.co"; 
     const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
-    // შენი Supabase კლიენტი (თუ უკვე გაქვს ცალკე ფაილში, გამოიყენე ის)
     const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-    // Trigger Haptic Feedback
     function triggerHaptic() {
       if (tg && tg.HapticFeedback) {
-        tg.HapticFeedback.impactOccurred('light');
+        tg.HapticFeedback.impactOccurred('medium');
       }
     }
 
-    // Modal Controls
     function openModal(id) {
       triggerHaptic();
       document.getElementById(id).classList.add('active');
@@ -415,25 +368,30 @@
 
     function switchTab(tab) {
       triggerHaptic();
-      // Tab switching logic
     }
 
-    // Load Jobs (მაგალითი)
     async function loadJobs() {
       const container = document.getElementById('job-list');
       const countEl = document.getElementById('job-count');
 
       if (!supabaseClient) {
-        // Fallback Demo Data
-        countEl.innerText = "1";
+        countEl.innerText = "2";
         container.innerHTML = `
-          <div class="job-card" onclick="showDetails('მიმტანი', 'ბათუმი / ცენტრი', '90', 'საჭიროა გამოცდილი მიმტანი საღამოს ცვლაში.', 'https://t.me/username')">
+          <div class="job-card" onclick="showDetails('მიმტანი', 'ბათუმი / ცენტრი', '100', 'საჭიროა გამოცდილი მიმტანი.', 'https://t.me/username')">
+            <div class="job-header">
+              <div class="job-title">მიმტანი</div>
+              <div class="job-price">100 ₾</div>
+            </div>
+            <div class="job-location"><i class="fa-solid fa-location-dot"></i> ბათუმი / ცენტრი</div>
+            <button class="btn-apply">დეტალურად / გამოხმაურება</button>
+          </div>
+          <div class="job-card" onclick="showDetails('მიმტანი', 'ბათუმი / ცენტრი', '90', 'საღამოს ცვლა.', 'https://t.me/username')">
             <div class="job-header">
               <div class="job-title">მიმტანი</div>
               <div class="job-price">90 ₾</div>
             </div>
             <div class="job-location"><i class="fa-solid fa-location-dot"></i> ბათუმი / ცენტრი</div>
-            <button class="btn-apply">გამოხმაურება</button>
+            <button class="btn-apply">დეტალურად / გამოხმაურება</button>
           </div>
         `;
         return;
@@ -455,7 +413,7 @@
             <div class="job-price">${job.price} ₾</div>
           </div>
           <div class="job-location"><i class="fa-solid fa-location-dot"></i> ${job.location}</div>
-          <button class="btn-apply">გამოხმაურება</button>
+          <button class="btn-apply">დეტალურად / გამოხმაურება</button>
         </div>
       `).join('');
     }
@@ -467,13 +425,12 @@
       document.getElementById('modal-price').innerText = price + ' ₾';
       document.getElementById('modal-desc').innerText = desc || 'დამატებითი აღწერა არ არის.';
       
-      const cleanContact = contact.replace('@', '');
+      const cleanContact = contact ? contact.replace('@', '') : '';
       document.getElementById('btn-contact').href = `https://t.me/${cleanContact}`;
       
       openModal('modal-details');
     }
 
-    // Add New Job Form Submit
     document.getElementById('create-job-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       triggerHaptic();
@@ -501,7 +458,6 @@
       loadJobs();
     });
 
-    // Initial Load
     loadJobs();
   </script>
 </body>
