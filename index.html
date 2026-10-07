@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HANDY.GE - საქმე შენს უბანში</title>
-    <!-- Google Fonts & FontAwesome Icons -->
+    <title>HANDY.GE - სამუშაო და სერვისები</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+GO:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --bg-color: #090d16;
+            --card-bg: rgba(21, 28, 44, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
             --accent-gradient: linear-gradient(135deg, #ff6b00 0%, #ff8800 100%);
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
+            --accent-shadow: rgba(255, 107, 0, 0.35);
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --card-hover: rgba(255, 255, 255, 0.05);
         }
 
         * {
@@ -28,96 +26,113 @@
         }
 
         body {
-            background: var(--bg-gradient);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, rgba(255, 107, 0, 0.08) 0%, transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
 
-        /* Header Navigation */
+        /* Modern Header */
         header {
             width: 100%;
-            max-width: 1200px;
-            padding: 20px;
+            padding: 18px 28px;
+            background: rgba(11, 15, 22, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--card-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(15, 23, 42, 0.8);
         }
 
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            text-decoration: none;
+            letter-spacing: 0.5px;
         }
 
-        .post-btn {
+        /* Modern Buttons */
+        .btn-primary {
             background: var(--accent-gradient);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 22px;
             border-radius: 12px;
             border: none;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px var(--accent-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .post-btn:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.5);
+            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.5);
+            filter: brightness(1.08);
         }
 
-        /* Hero Section */
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Hero & Search */
         .hero {
-            width: 100%;
-            max-width: 1200px;
-            padding: 60px 20px;
             text-align: center;
-            background: radial-gradient(circle at center, rgba(255, 107, 0, 0.15) 0%, transparent 70%);
+            padding: 50px 20px 25px 20px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 12px;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 30px;
         }
 
-        /* Search & Categories */
         .search-box {
-            max-width: 600px;
-            margin: 0 auto 30px auto;
             position: relative;
+            max-width: 580px;
+            margin: 0 auto 24px auto;
         }
 
         .search-box input {
             width: 100%;
             padding: 16px 20px 16px 50px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(21, 28, 44, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
             border-radius: 16px;
             color: white;
             font-size: 1rem;
             outline: none;
-            backdrop-filter: blur(12px);
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-box input:focus {
+            border-color: rgba(255, 107, 0, 0.5);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.15);
         }
 
         .search-box i {
@@ -126,67 +141,82 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
+            font-size: 1.1rem;
         }
 
+        /* Modern Category Chips */
         .categories {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .cat-chip {
-            padding: 8px 16px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            padding: 10px 20px;
+            background: rgba(21, 28, 44, 0.5);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.2s;
             font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
         }
 
-        .cat-chip:hover, .cat-chip.active {
+        .cat-chip:hover {
+            border-color: rgba(255, 107, 0, 0.4);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .cat-chip.active {
             background: var(--accent-gradient);
+            color: white;
             border-color: transparent;
+            box-shadow: 0 4px 15px var(--accent-shadow);
         }
 
-        /* Vacancy Grid */
+        /* Grid & Cards */
         .container {
+            max-width: 1140px;
+            margin: 0 auto;
             width: 100%;
-            max-width: 1200px;
             padding: 0 20px 60px 20px;
+            flex: 1;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
+            gap: 22px;
         }
 
         .card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 20px;
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 107, 0, 0.4);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .card-title {
@@ -194,33 +224,54 @@
             font-weight: 600;
         }
 
-        .price-badge {
-            background: rgba(255, 107, 0, 0.15);
+        .price-tag {
+            background: rgba(255, 107, 0, 0.12);
             color: #ff8800;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 10px;
             font-weight: 700;
-            border: 1px solid rgba(255, 107, 0, 0.3);
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 107, 0, 0.25);
+            white-space: nowrap;
         }
 
         .card-desc {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin-bottom: 22px;
         }
 
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid var(--glass-border);
-            font-size: 0.85rem;
+            padding-top: 16px;
+            border-top: 1px solid var(--card-border);
+            font-size: 0.88rem;
             color: var(--text-muted);
         }
 
-        /* Modal Form */
+        .call-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            transition: all 0.25s;
+        }
+
+        .call-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Modern Modals */
         .modal {
             display: none;
             position: fixed;
@@ -229,93 +280,107 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             justify-content: center;
             align-items: center;
             z-index: 200;
+            padding: 20px;
         }
 
         .modal-content {
-            background: #1e293b;
-            border: 1px solid var(--glass-border);
+            background: #111726;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 30px;
             border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
+            width: 100%;
+            max-width: 480px;
             position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .close-btn {
             position: absolute;
-            right: 20px;
-            top: 20px;
+            right: 22px;
+            top: 22px;
             cursor: pointer;
             font-size: 1.2rem;
             color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: white;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-size: 0.88rem;
             color: var(--text-muted);
+            font-weight: 500;
         }
 
-        .form-group input, .form-group textarea, .form-group select {
+        .form-group input, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            background: #0f172a;
-            border: 1px solid var(--glass-border);
+            padding: 12px 16px;
+            background: #080c14;
+            border: 1px solid var(--card-border);
             border-radius: 10px;
             color: white;
             outline: none;
+            font-size: 0.95rem;
+            transition: border 0.2s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: rgba(255, 107, 0, 0.5);
         }
 
         /* Footer */
         footer {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            border-top: 1px solid var(--glass-border);
-            padding: 40px 20px;
-            margin-top: auto;
+            background: rgba(11, 15, 22, 0.95);
+            border-top: 1px solid var(--card-border);
+            padding: 30px 20px;
             text-align: center;
         }
 
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 25px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
         }
 
         .footer-links a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: color 0.2s;
         }
 
         .footer-links a:hover {
-            color: white;
+            color: #ff8800;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header>
-        <div class="logo"><i class="fa-solid fa-handshake"></i> HANDY.GE</div>
-        <button class="post-btn" onclick="openModal()"><i class="fa-solid fa-plus"></i> განცხადების დამატება</button>
+        <a href="#" class="logo"><i class="fa-solid fa-bolt"></i> HANDY.GE</a>
+        <button class="btn-primary" onclick="openModal('postModal')"><i class="fa-solid fa-plus"></i> განცხადების დამატება</button>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero">
-        <h1>იპოვე სამუშაო ან ოსტატი შენს უბანში</h1>
-        <p>მაღალი სანდოობის პლატფორმა კერძო შემსრულებლებისა და კომპანიებისთვის</p>
+        <h1>იპოვე სამუშაო ან ოსტატი მარტივად</h1>
+        <p>განათავსე ვაკანსია ან დაუკავშირდი შემსრულებელს პირდაპირ</p>
 
         <div class="search-box">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -323,26 +388,23 @@
         </div>
 
         <div class="categories">
-            <div class="cat-chip active" onclick="filterCategory('all')">ყველა</div>
-            <div class="cat-chip" onclick="filterCategory('ხელოსანი')">🔧 ხელოსანი</div>
-            <div class="cat-chip" onclick="filterCategory('მიმტანი')">🍽️ მიმტანი</div>
-            <div class="cat-chip" onclick="filterCategory('დასუფთავება')">🧹 დასუფთავება</div>
-            <div class="cat-chip" onclick="filterCategory('კურიერი')">🚚 კურიერი</div>
+            <div class="cat-chip active" onclick="filterCategory('all', event)">ყველა</div>
+            <div class="cat-chip" onclick="filterCategory('ხელოსანი', event)">🔧 ხელოსანი</div>
+            <div class="cat-chip" onclick="filterCategory('მიმტანი', event)">🍽️ მიმტანი</div>
+            <div class="cat-chip" onclick="filterCategory('დასუფთავება', event)">🧹 დასუფთავება</div>
+            <div class="cat-chip" onclick="filterCategory('კურიერი', event)">🚚 კურიერი</div>
         </div>
     </section>
 
-    <!-- Main Vacancies Grid -->
     <main class="container">
-        <div class="grid" id="jobsGrid">
-            <!-- Vacancy Cards Auto Generated Here -->
-        </div>
+        <div class="grid" id="jobsGrid"></div>
     </main>
 
-    <!-- Add Post Modal -->
+    <!-- Modal: Add Job -->
     <div class="modal" id="postModal">
         <div class="modal-content">
-            <i class="fa-solid fa-xmark close-btn" onclick="closeModal()"></i>
-            <h2 style="margin-bottom: 20px;">ახალი ვაკანსიის დამატება</h2>
+            <i class="fa-solid fa-xmark close-btn" onclick="closeModal('postModal')"></i>
+            <h3 style="margin-bottom: 20px; font-size: 1.3rem;">ახალი ვაკანსიის დამატება</h3>
             <form id="jobForm" onsubmit="submitJob(event)">
                 <div class="form-group">
                     <label>ვაკანსიის დასახელება</label>
@@ -350,45 +412,79 @@
                 </div>
                 <div class="form-group">
                     <label>მდებარეობა / ქალაქი</label>
-                    <input type="text" id="location" placeholder="მაგ: ბათუმი / ცენტრი" required>
+                    <input type="text" id="location" placeholder="მაგ: ბათუმი" required>
                 </div>
                 <div class="form-group">
                     <label>ანაზღაურება (₾)</label>
-                    <input type="number" id="price" placeholder="90" required>
+                    <input type="number" id="budget" placeholder="90" required>
                 </div>
                 <div class="form-group">
                     <label>დეტალური აღწერა</label>
                     <textarea id="description" rows="3" placeholder="სამუშაო საათები, პირობები..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Telegram Username (@-ის გარეშე)</label>
-                    <input type="text" id="telegram" placeholder="HandySupport" required>
+                    <label>ტელეფონის ნომერი</label>
+                    <input type="tel" id="phone" placeholder="599123456" required>
                 </div>
-                <button type="submit" class="post-btn" style="width: 100%; margin-top: 10px;">გამოქვეყნება</button>
+                <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px; padding: 14px;">გამოქვეყნება</button>
             </form>
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Modal: About Us -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-btn" onclick="closeModal('aboutModal')"></i>
+            <h3 style="margin-bottom: 16px; font-size: 1.25rem;">ჩვენ შესახებ</h3>
+            <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem;">
+                <strong>HANDY.GE</strong> არის თანამედროვე ონლაინ პლატფორმა, რომელიც აკავშირებს დამსაქმებლებსა და სამუშაოს მაძიებლებს მთელი საქართველოს მასშტაბით.<br><br>
+                ჩვენი მიზანია პროცესის მაქსიმალურად გამარტივება — ზედმეტი ბიუროკრატიის გარეშე, პირდაპირი კომუნიკაციით.
+            </p>
+        </div>
+    </div>
+
+    <!-- Modal: Terms -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-btn" onclick="closeModal('termsModal')"></i>
+            <h3 style="margin-bottom: 16px; font-size: 1.25rem;">წესები და პირობები</h3>
+            <ul style="color: var(--text-muted); line-height: 1.7; font-size: 0.92rem; padding-left: 20px;">
+                <li style="margin-bottom: 10px;">განცხადებაში მითითებული ინფორმაცია უნდა იყოს რეალური და ზუსტი.</li>
+                <li style="margin-bottom: 10px;">აკრძალულია ყალბი განცხადებების ან შეურაცხმყოფელი ტექსტის გამოქვეყნება.</li>
+                <li>პლატფორმა არ იღებს პასუხისმგებლობას მხარეებს შორის ფინანსურ ან სახელშეკრულებო შეთანხმებებზე.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal: Contact -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-xmark close-btn" onclick="closeModal('contactModal')"></i>
+            <h3 style="margin-bottom: 16px; font-size: 1.25rem;">კონტაქტი</h3>
+            <p style="color: var(--text-muted); line-height: 2; font-size: 0.95rem;">
+                <i class="fa-solid fa-envelope" style="color: #ff8800;"></i> ელ.ფოსტა: support@handy.ge<br>
+                <i class="fa-solid fa-phone" style="color: #ff8800;"></i> ტელეფონი: +995 32 2 00 00 00<br>
+                <i class="fa-solid fa-location-dot" style="color: #ff8800;"></i> მისამართი: თბილისი / ბათუმი
+            </p>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-links">
-            <a href="#">ჩვენ შესახებ</a>
-            <a href="#">როგორ მუშაობს?</a>
-            <a href="#">წესები და პირობები</a>
-            <a href="#">კონტაქტი</a>
+            <a onclick="openModal('aboutModal')">ჩვენ შესახებ</a>
+            <a onclick="openModal('termsModal')">წესები და პირობები</a>
+            <a onclick="openModal('contactModal')">კონტაქტი</a>
         </div>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">&copy; 2026 HANDY.GE. ყველა უფლება დაცულია.</p>
+        <p style="color: var(--text-muted); font-size: 0.82rem;">&copy; 2026 HANDY.GE. ყველა უფლება დაცულია.</p>
     </footer>
 
     <script>
-        // Supabase Initialization
         const SUPABASE_URL = 'https://htaeixkajfshvzrubvkq.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_s10vpDCdrFlicjSe32FSyw_5QMCKjKx';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let allJobs = [];
 
-        // Load Jobs from Supabase
         async function loadJobs() {
             try {
                 const { data, error } = await supabaseClient
@@ -397,43 +493,44 @@
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
-
                 allJobs = data || [];
                 renderJobs(allJobs);
             } catch (err) {
-                console.error("Error loading jobs:", err);
-                document.getElementById('jobsGrid').innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: #ef4444;">მონაცემების ჩატვირთვა ვერ მოხერხდა</p>';
+                console.error("Error:", err);
             }
         }
 
-        // Render Cards
         function renderJobs(jobs) {
             const grid = document.getElementById('jobsGrid');
             if (jobs.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted);">ვაკანსიები ჯერ არ არის</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted); padding: 50px 0;">განცხადებები ჯერ არ არის</p>';
                 return;
             }
 
-            grid.innerHTML = jobs.map(job => `
-                <div class="card">
-                    <div>
-                        <div class="card-header">
-                            <div class="card-title">${escapeHtml(job.title)}</div>
-                            <div class="price-badge">${job.price} ₾</div>
+            grid.innerHTML = jobs.map(job => {
+                const priceValue = job.budget || job.price || 0;
+                const phoneValue = job.phone || job.telegram || '';
+
+                return `
+                    <div class="card">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-title">${escapeHtml(job.title)}</div>
+                                <div class="price-tag">${priceValue} ₾</div>
+                            </div>
+                            <div class="card-desc">${escapeHtml(job.description)}</div>
                         </div>
-                        <div class="card-desc">${escapeHtml(job.description)}</div>
+                        <div class="card-footer">
+                            <span><i class="fa-solid fa-location-dot" style="color: #ff8800;"></i> ${escapeHtml(job.location)}</span>
+                            <a href="tel:${phoneValue}" class="call-btn">
+                                <i class="fa-solid fa-phone"></i> ${escapeHtml(phoneValue)}
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <span><i class="fa-solid fa-location-dot"></i> ${escapeHtml(job.location)}</span>
-                        <a href="https://t.me/${job.telegram}" target="_blank" style="color: #ff8800; text-decoration: none; font-weight: 600;">
-                            <i class="fa-brands fa-telegram"></i> კონტაქტი
-                        </a>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        // Submit New Job
         async function submitJob(e) {
             e.preventDefault();
             const btn = e.target.querySelector('button');
@@ -443,54 +540,52 @@
             const newJob = {
                 title: document.getElementById('title').value,
                 location: document.getElementById('location').value,
-                price: parseFloat(document.getElementById('price').value),
+                budget: parseFloat(document.getElementById('budget').value),
                 description: document.getElementById('description').value,
-                telegram: document.getElementById('telegram').value.replace('@', '')
+                phone: document.getElementById('phone').value
             };
 
             try {
                 const { error } = await supabaseClient.from('jobs').insert([newJob]);
                 if (error) throw error;
 
-                closeModal();
+                closeModal('postModal');
                 document.getElementById('jobForm').reset();
                 loadJobs();
             } catch (err) {
-                alert("შეცდომა დამატებისას: " + err.message);
+                alert("შეცდომა: " + err.message);
             } finally {
                 btn.disabled = false;
                 btn.innerText = "გამოქვეყნება";
             }
         }
 
-        // Filter Functionality
         function filterCards() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = allJobs.filter(job => 
-                job.title.toLowerCase().includes(query) || 
-                job.location.toLowerCase().includes(query) ||
-                job.description.toLowerCase().includes(query)
+                (job.title && job.title.toLowerCase().includes(query)) || 
+                (job.location && job.location.toLowerCase().includes(query)) ||
+                (job.description && job.description.toLowerCase().includes(query))
             );
             renderJobs(filtered);
         }
 
-        function filterCategory(cat) {
+        function filterCategory(cat, e) {
             document.querySelectorAll('.cat-chip').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
+            e.target.classList.add('active');
 
             if (cat === 'all') {
                 renderJobs(allJobs);
             } else {
-                const filtered = allJobs.filter(job => job.title.toLowerCase().includes(cat.toLowerCase()));
+                const filtered = allJobs.filter(job => job.title && job.title.toLowerCase().includes(cat.toLowerCase()));
                 renderJobs(filtered);
             }
         }
 
-        function openModal() { document.getElementById('postModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('postModal').style.display = 'none'; }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
-        // Initial Load
         loadJobs();
     </script>
 </body>
