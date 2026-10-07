@@ -268,6 +268,17 @@
             font-size: 0.9rem;
             border: 1px solid var(--card-border);
             white-space: nowrap;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .price-type-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-family: var(--font-main);
+            font-weight: 400;
         }
 
         .card-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 18px; }
@@ -398,6 +409,36 @@
                 <option value="ბათუმი">ბათუმი</option>
                 <option value="ქუთაისი">ქუთაისი</option>
                 <option value="რუსთავი">რუსთავი</option>
+                <option value="გორი">გორი</option>
+                <option value="ზუგდიდი">ზუგდიდი</option>
+                <option value="ფოთი">ფოთი</option>
+                <option value="თელავი">თელავი</option>
+                <option value="ახალციხე">ახალციხე</option>
+                <option value="ქობულეთი">ქობულეთი</option>
+                <option value="სამტრედია">სამტრედია</option>
+                <option value="ხაშური">ხაშური</option>
+                <option value="ზესტაფონი">ზესტაფონი</option>
+                <option value="მარნეული">მარნეული</option>
+                <option value="ოზურგეთი">ოზურგეთი</option>
+                <option value="სენაკი">სენაკი</option>
+                <option value="ჭიათურა">ჭიათურა</option>
+                <option value="წყალტუბო">წყალტუბო</option>
+                <option value="საგარეჯო">საგარეჯო</option>
+                <option value="გარდაბანი">გარდაბანი</option>
+                <option value="ბორჯომი">ბორჯომი</option>
+                <option value="ტყიბული">ტყიბული</option>
+                <option value="ხობი">ხობი</option>
+                <option value="ბოლნისი">ბოლნისი</option>
+                <option value="ყვარელი">ყვარელი</option>
+                <option value="ახალქალაქი">ახალქალაქი</option>
+                <option value="გურჯაანი">გურჯაანი</option>
+                <option value="დუშეთი">დუშეთი</option>
+                <option value="სტეფანწმინდა">სტეფანწმინდა (ყაზბეგი)</option>
+                <option value="მესტია">მესტია</option>
+                <option value="ბახმარო">ბახმარო</option>
+                <option value="გუდაური">გუდაური</option>
+                <option value="ბაკურიანი">ბაკურიანი</option>
+                <option value="სხვა">სხვა</option>
             </select>
         </div>
 
@@ -421,7 +462,7 @@
             <form id="jobForm" onsubmit="submitJob(event)">
                 <div class="form-group">
                     <label>სათაური</label>
-                    <input type="text" id="title" placeholder="მაგ: გამოცდილი სანტექნიკი" required>
+                    <input type="text" id="title" placeholder="მაგ: კაფელის დაგება / სანტექნიკა" required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -431,12 +472,51 @@
                             <option value="ბათუმი">ბათუმი</option>
                             <option value="ქუთაისი">ქუთაისი</option>
                             <option value="რუსთავი">რუსთავი</option>
+                            <option value="გორი">გორი</option>
+                            <option value="ზუგდიდი">ზუგდიდი</option>
+                            <option value="ფოთი">ფოთი</option>
+                            <option value="თელავი">თელავი</option>
+                            <option value="ახალციხე">ახალციხე</option>
+                            <option value="ქობულეთი">ქობულეთი</option>
+                            <option value="სამტრედია">სამტრედია</option>
+                            <option value="ხაშური">ხაშური</option>
+                            <option value="ზესტაფონი">ზესტაფონი</option>
+                            <option value="მარნეული">მარნეული</option>
+                            <option value="ოზურგეთი">ოზურგეთი</option>
+                            <option value="სენაკი">სენაკი</option>
+                            <option value="ჭიათურა">ჭიათურა</option>
+                            <option value="წყალტუბო">წყალტუბო</option>
+                            <option value="საგარეჯო">საგარეჯო</option>
+                            <option value="გარდაბანი">გარდაბანი</option>
+                            <option value="ბორჯომი">ბორჯომი</option>
+                            <option value="ტყიბული">ტყიბული</option>
+                            <option value="ხობი">ხობი</option>
+                            <option value="ბოლნისი">ბოლნისი</option>
+                            <option value="ყვარელი">ყვარელი</option>
+                            <option value="ახალქალაქი">ახალქალაქი</option>
+                            <option value="გურჯაანი">გურჯაანი</option>
+                            <option value="დუშეთი">დუშეთი</option>
+                            <option value="სტეფანწმინდა">სტეფანწმინდა (ყაზბეგი)</option>
+                            <option value="მესტია">მესტია</option>
+                            <option value="ბახმარო">ბახმარო</option>
+                            <option value="გუდაური">გუდაური</option>
+                            <option value="ბაკურიანი">ბაკურიანი</option>
+                            <option value="სხვა">სხვა</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>ანაზღაურება (₾)</label>
-                        <input type="text" id="price" placeholder="100 ₾ / დღე" required>
+                        <label>ფასის ტიპი</label>
+                        <select id="priceType" required>
+                            <option value="შეთანხმებით">შეთანხმებით / ადგილზე</option>
+                            <option value="₾ / მ²">კვადრატული (₾ / მ²)</option>
+                            <option value="₾ / სთ">საათობრივი (₾ / სთ)</option>
+                            <option value="ფიქსირებული">ფიქსირებული თანხა</option>
+                        </select>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label>ანაზღაურება / ბიუჯეტი (მაგ: 30 ₾-დან ან შეთანხმებით)</label>
+                    <input type="text" id="price" placeholder="30 ₾-დან" required>
                 </div>
                 <div class="form-group">
                     <label>ტელეფონის ნომერი (WhatsApp)</label>
@@ -444,7 +524,7 @@
                 </div>
                 <div class="form-group">
                     <label>დეტალური აღწერა</label>
-                    <textarea id="description" rows="3" placeholder="სამუშაო პირობები, საათები..." required></textarea>
+                    <textarea id="description" rows="3" placeholder="აღწერეთ დეტალები, სამუშაოს სირთულე, მასალები..." required></textarea>
                 </div>
                 <div class="form-group">
                     <label>ლოკაცია რუკაზე (დააჭირეთ რუკას მონიშვნისთვის)</label>
@@ -469,7 +549,7 @@
             <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
                 <p><strong>⏱️ 7-დღიანი წესი:</strong> თითოეული განცხადება აქტიურია 7 დღის განმავლობაში. 7 დღის შემდეგ ის ავტომატურად გადადის არააქტიურებში.</p><br>
                 <p><strong>📱 მართვა რეგისტრაციის გარეშე:</strong> განცხადების დადებისას მართვის ბმული ინახება თქვენს ტელეფონში („ჩემი განცხადებები“). ასევე შეგიძლიათ ეს ბმული გადააგზავნოთ თქვენს WhatsApp-ში.</p><br>
-                <p><strong>🔄 გაგრძელება / წაშლა:</strong> მართვის პანელიდან შეგიძლიათ ნებისმიერ დროს გააგრძელოთ ვადა 7 დღით, შეცვალოთ სტატუსი ან წაშალოთ განცხადება.</p>
+                <p><strong>🔄 გაგრძელება / წაშლა:</strong> მართვის პანელიდან შეგიძლიათ ნებისმიერ დროს გააგრძელოთ ვადა 7 დღით, შეცვალოთ სტატუსი ან წაშლოთ განცხადება.</p>
             </div>
         </div>
     </div>
@@ -542,6 +622,7 @@
                 const timeInfo = calculateRemainingTime(job.created_at);
                 const isOwner = myTokens.includes(job.manage_token);
                 const isUrgent = job.is_urgent;
+                const priceType = job.price_type || 'შეთანხმებით';
 
                 return `
                     <div class="card ${isUrgent ? 'urgent' : ''}">
@@ -549,7 +630,10 @@
                         <div>
                             <div class="card-header">
                                 <div class="card-title">${escapeHtml(job.title)}</div>
-                                <div class="price-tag">${escapeHtml(job.price)}</div>
+                                <div class="price-tag">
+                                    ${escapeHtml(job.price)}
+                                    <span class="price-type-label">${escapeHtml(priceType)}</span>
+                                </div>
                             </div>
                             <div class="card-desc">${escapeHtml(job.description)}</div>
                         </div>
@@ -584,6 +668,7 @@
                 city: document.getElementById('city').value,
                 category: 'general',
                 price: document.getElementById('price').value,
+                price_type: document.getElementById('priceType').value,
                 phone: document.getElementById('phone').value,
                 description: document.getElementById('description').value,
                 lat: parseFloat(document.getElementById('lat').value) || 41.6434,
@@ -597,7 +682,6 @@
                 const { data, error } = await supabaseClient.from('jobs').insert([newJob]).select();
                 if (error) throw error;
 
-                // შევინახოთ ტოკენი LocalStorage-ში
                 const myTokens = JSON.parse(localStorage.getItem('my_handy_tokens') || '[]');
                 myTokens.push(manageToken);
                 localStorage.setItem('my_handy_tokens', JSON.stringify(myTokens));
@@ -605,7 +689,6 @@
                 closeModal('postModal');
                 document.getElementById('jobForm').reset();
                 
-                // WhatsApp-ში მართვის ბმულის გადაგზავნა
                 const manageUrl = `${window.location.origin}${window.location.pathname}?token=${manageToken}`;
                 const waText = `ჩემი განცხადების მართვის ბმული (HANDY.GE): ${manageUrl}`;
                 if (confirm("განცხადება გამოქვეყნდა! გსურთ მართვის ბმული გადაიგზავნოთ თქვენს WhatsApp-ში?")) {
@@ -663,14 +746,21 @@
             document.getElementById('jobsGrid').style.display = view === 'list' ? 'grid' : 'none';
             document.getElementById('mapView').style.display = view === 'map' ? 'block' : 'none';
 
-            if (view === 'map' && !mainMap) {
-                initMainMap();
+            if (view === 'map') {
+                if (!mainMap) {
+                    initMainMap();
+                } else {
+                    setTimeout(() => mainMap.invalidateSize(), 100);
+                }
             }
         }
 
         function initMainMap() {
             mainMap = L.map('mapView').setView([41.6434, 41.6399], 12);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(mainMap);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(mainMap);
             updateMapMarkers(allJobs);
         }
 
@@ -689,9 +779,15 @@
         }
 
         function initFormMap() {
-            if (formMap) return;
+            if (formMap) {
+                setTimeout(() => formMap.invalidateSize(), 200);
+                return;
+            }
             formMap = L.map('formMap').setView([41.6434, 41.6399], 12);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(formMap);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(formMap);
 
             formMap.on('click', function(e) {
                 const { lat, lng } = e.latlng;
@@ -724,7 +820,6 @@
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         function escapeHtml(str) { return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : ''; }
 
-        // ჩავტვირთოთ ტოკენი URL-იდან თუ გადამოამისამართეს WhatsApp ბმულით
         const urlParams = new URLSearchParams(window.location.search);
         const tokenFromUrl = urlParams.get('token');
         if (tokenFromUrl) {
