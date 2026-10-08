@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handy.ge - სერვისები და ვაკანსიები (Dark Mode)</title>
+    <title>Handy.ge - პროფესიონალური პლატფორმა</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -14,6 +14,7 @@
             --accent-hover: #0ea5e9;
             --border: #334155;
             --radius: 12px;
+            --danger: #f43f5e;
         }
 
         * {
@@ -53,6 +54,12 @@
             text-decoration: none;
         }
 
+        .nav-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
         .btn {
             background-color: var(--accent);
             color: #0f172a;
@@ -81,6 +88,11 @@
             color: #0f172a;
         }
 
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
         main {
             max-width: 1200px;
             margin: 2rem auto;
@@ -103,19 +115,19 @@
             font-size: 1.1rem;
         }
 
-        /* ფილტრები */
+        /* ფილტრები და სორტირება */
         .search-filter-container {
             background: var(--card);
             padding: 1.5rem;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             display: grid;
-            grid-template-columns: 2fr 1.5fr 1fr auto;
+            grid-template-columns: 2fr 1.5fr 1fr 1fr auto;
             gap: 1rem;
             margin-bottom: 2rem;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .search-filter-container {
                 grid-template-columns: 1fr;
             }
@@ -159,11 +171,10 @@
         .card {
             background: var(--card);
             border-radius: var(--radius);
-            padding: 1.5rem;
+            overflow: hidden;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
             transition: transform 0.2s, border-color 0.2s;
             cursor: pointer;
         }
@@ -173,31 +184,50 @@
             border-color: var(--accent);
         }
 
+        .card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background: #090d16;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            flex-grow: 1;
+        }
+
         .card-tag {
             align-self: flex-start;
             background-color: rgba(56, 189, 248, 0.1);
             color: var(--accent);
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 20px;
             text-transform: uppercase;
         }
 
         .card-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: bold;
             color: var(--text);
         }
 
         .card-desc {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .card-provider {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--accent);
             font-weight: 600;
         }
@@ -209,7 +239,7 @@
             margin-top: 0.5rem;
             padding-top: 0.8rem;
             border-top: 1px solid var(--border);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
@@ -227,7 +257,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -240,7 +270,7 @@
             padding: 2rem;
             border-radius: var(--radius);
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -273,6 +303,15 @@
             gap: 0.8rem;
             margin-bottom: 1rem;
         }
+
+        .user-badge {
+            background: rgba(56, 189, 248, 0.15);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -280,21 +319,23 @@
     <header>
         <div class="navbar">
             <a href="#" class="logo">Handy.ge 🌑</a>
-            <button class="btn btn-outline" onclick="openAddModal()">განცხადების დამატება</button>
+            <div class="nav-right" id="navRightSection">
+                <!-- დინამიკურად ივსება სკრიპტით (ავტორიზაცია) -->
+            </div>
         </div>
     </header>
 
     <main>
         <section class="hero">
-            <h1>იპოვე სასურველი სერვისი ან პროფესიონალი</h1>
-            <p>მოძებნე რეგიონისა და კატეგორიების მიხედვით</p>
+            <h1>პროფესიონალური სერვისები და ვაკანსიები</h1>
+            <p>იპოვე სანდო კომპანია, ხელოსანი ან სპეციალისტები შენს რეგიონში</p>
         </section>
 
-        <!-- ფილტრები -->
+        <!-- ფილტრები და სორტირება -->
         <div class="search-filter-container">
             <div class="form-group">
-                <label for="searchInput">ძებნა სათაურით</label>
-                <input type="text" id="searchInput" class="form-control" placeholder="მაგ: ბუღალტერი, რემონტი..." oninput="filterListings()">
+                <label for="searchInput">ძებნა</label>
+                <input type="text" id="searchInput" class="form-control" placeholder="სათაური, აღწერა..." oninput="filterListings()">
             </div>
             
             <div class="form-group">
@@ -311,7 +352,7 @@
             <div class="form-group">
                 <label for="locationFilter">რეგიონი</label>
                 <select id="locationFilter" class="form-control" onchange="filterListings()">
-                    <option value="">ნებისმიერ ადგილას</option>
+                    <option value="">ყველა რეგიონი</option>
                     <option value="თბილისი">თბილისი</option>
                     <option value="აჭარის ა/რ">აჭარის ა/რ</option>
                     <option value="იმერეთი">იმერეთი</option>
@@ -320,8 +361,17 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <label for="sortBy">სორტირება</label>
+                <select id="sortBy" class="form-control" onchange="filterListings()">
+                    <option value="newest">უახლესი</option>
+                    <option value="price-asc">ფასი: ზრდადი</option>
+                    <option value="price-desc">ფასი: კლებადი</option>
+                </select>
+            </div>
+
             <div class="form-group" style="justify-content: flex-end;">
-                <button class="btn" onclick="resetFilters()" style="height: 46px;">გასუფთავება</button>
+                <button class="btn btn-outline" onclick="resetFilters()" style="height: 46px;">გასუფთავება</button>
             </div>
         </div>
 
@@ -375,6 +425,10 @@
                     </select>
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label>ფოტო (სურვილისამებრ)</label>
+                    <input type="file" id="newImage" class="form-control" accept="image/*">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>აღწერა</label>
                     <textarea id="newDesc" class="form-control" rows="2" required placeholder="დეტალური ინფორმაცია..."></textarea>
                 </div>
@@ -383,10 +437,10 @@
                     <input type="text" id="newContact" class="form-control" required placeholder="599 00 00 00">
                 </div>
                 <div class="form-group" style="margin-bottom: 1.2rem;">
-                    <label>ფასი</label>
+                    <label>ფასი (₾)</label>
                     <input type="text" id="newPrice" class="form-control" required placeholder="1200 ₾">
                 </div>
-                <button type="submit" class="btn" style="width: 100%;">დამატება</button>
+                <button type="submit" class="btn" style="width: 100%;">განცხადების გამოქვეყნება</button>
             </form>
         </div>
     </div>
@@ -399,23 +453,110 @@
                 <button class="close-btn" onclick="closeDetailModal()">&times;</button>
             </div>
             <div class="detail-info">
+                <img id="detailImg" src="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; display: none; margin-bottom: 0.5rem;">
                 <span id="detailTag" class="card-tag">კატეგორია</span>
                 <p><strong>🏢 გამომცხადებელი:</strong> <span id="detailProvider" style="color: var(--accent); font-weight: 600;"></span></p>
                 <p><strong>📍 რეგიონი:</strong> <span id="detailLocation"></span></p>
                 <p><strong>💰 ფასი:</strong> <span id="detailPrice" style="color: var(--accent); font-weight: bold;"></span></p>
                 <p><strong>📝 აღწერა:</strong></p>
                 <p id="detailDesc" style="color: var(--text-muted); background: #090d16; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);"></p>
+                <p><strong>📞 კონტაქტი:</strong> <span id="detailContact" style="color: var(--text);"></span></p>
             </div>
-            <button class="btn" style="width: 100%;" onclick="alert('შეტყობინება გაიგზავნა!'); closeDetailModal();">გამოხმაურება</button>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn" style="flex: 1;" onclick="openContactForm()">შეტყობინების გაგზავნა</button>
+                <button id="deleteBtn" class="btn btn-danger" style="display:none;" onclick="deleteCurrentListing()">წაშლა</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- შეტყობინების გაგზავნის მოდალი -->
+    <div class="modal" id="msgModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>მოწერე ავტორს</h2>
+                <button class="close-btn" onclick="closeMsgModal()">&times;</button>
+            </div>
+            <form onsubmit="sendDirectMessage(event)">
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label>შენი სახელი</label>
+                    <input type="text" id="msgSender" class="form-control" required placeholder="სახელი...">
+                </div>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label>შეტყობინება</label>
+                    <textarea id="msgText" class="form-control" rows="3" required placeholder="მოგესალმებით, ვინტერესდები თქვენი სერვისით..."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">გაგზავნა</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- შესვლის / რეგისტრაციის მოდალი -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ავტორიზაცია</h2>
+                <button class="close-btn" onclick="closeAuthModal()">&times;</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label>სახელი / კომპანიის სახელი</label>
+                    <input type="text" id="loginNameInput" class="form-control" required placeholder="მაგ: გიორგი">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">შესვლა სისტემაში</button>
+            </form>
         </div>
     </div>
 
     <script>
-        let listings = [
-            { id: 1, providerType: "შპს", providerName: "შპს ნოვა", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: "1200 ₾" },
-            { id: 2, providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: "შეთანხმებით" }
+        // საწყისი მონაცემები ან LocalStorage-დან წამოღება
+        let listings = JSON.parse(localStorage.getItem('handy_listings')) || [
+            { id: 1, userId: "admin", providerType: "შპს", providerName: "შპს ნოვა", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: 1200, image: "", date: Date.now() - 10000 },
+            { id: 2, userId: "admin", providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: 500, image: "", date: Date.now() }
         ];
 
+        let currentUser = localStorage.getItem('handy_user') || null;
+        let activeListingId = null;
+
+        function saveToStorage() {
+            localStorage.setItem('handy_listings', JSON.stringify(listings));
+        }
+
+        // ნავიგაციის განახლება (ავტორიზაციის სტატუსი)
+        function updateNav() {
+            const navRight = document.getElementById('navRightSection');
+            if (currentUser) {
+                navRight.innerHTML = `
+                    <span class="user-badge">👤 ${currentUser}</span>
+                    <button class="btn" onclick="openAddModal()">+ განცხადება</button>
+                    <button class="btn btn-outline" onclick="logout()">მოსვლა/გასვლა</button>
+                `;
+            } else {
+                navRight.innerHTML = `
+                    <button class="btn" onclick="openAddModal()">+ განცხადება</button>
+                    <button class="btn btn-outline" onclick="openAuthModal()">შესვლა</button>
+                `;
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('loginNameInput').value.trim();
+            if(name) {
+                currentUser = name;
+                localStorage.setItem('handy_user', currentUser);
+                updateNav();
+                closeAuthModal();
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('handy_user');
+            updateNav();
+            renderListings(listings);
+        }
+
+        // რენდერი (ბარათების გამოჩენა)
         function renderListings(items) {
             const container = document.getElementById('listingsContainer');
             container.innerHTML = '';
@@ -427,30 +568,48 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openDetailModal(item);
+                
+                let imgTag = item.image ? `<img src="${item.image}" class="card-img">` : `<div class="card-img" style="display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:1.5rem;">📁</div>`;
+
                 card.innerHTML = `
-                    <span class="card-tag">${item.category}</span>
-                    <div class="card-provider">${item.providerType}: ${item.providerName}</div>
-                    <h3 class="card-title">${item.title}</h3>
-                    <p class="card-desc">${item.desc}</p>
-                    <div class="card-footer">
-                        <span>📍 ${item.location}</span>
-                        <span class="card-price">${item.price}</span>
+                    ${imgTag}
+                    <div class="card-body">
+                        <span class="card-tag">${item.category}</span>
+                        <div class="card-provider">${item.providerType}: ${item.providerName}</div>
+                        <h3 class="card-title">${escapeHtml(item.title)}</h3>
+                        <p class="card-desc">${escapeHtml(item.desc)}</p>
+                        <div class="card-footer">
+                            <span>📍 ${item.location}</span>
+                            <span class="card-price">${item.price} ₾</span>
+                        </div>
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
+        // ძებნა და სორტირება
         function filterListings() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             const cat = document.getElementById('categoryFilter').value;
             const loc = document.getElementById('locationFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
 
-            const filtered = listings.filter(i => 
+            let filtered = listings.filter(i => 
                 (i.title.toLowerCase().includes(searchText) || i.desc.toLowerCase().includes(searchText) || i.providerName.toLowerCase().includes(searchText)) &&
                 (cat === "" || i.category === cat) &&
                 (loc === "" || i.location === loc)
             );
+
+            // სორტირება
+            if (sortBy === 'newest') {
+                filtered.sort((a, b) => b.date - a.date);
+            } else if (sortBy === 'price-asc') {
+                filtered.sort((a, b) => Number(a.price) - Number(b.price));
+            } else if (sortBy === 'price-desc') {
+                filtered.sort((a, b) => Number(b.price) - Number(a.price));
+            }
+
             renderListings(filtered);
         }
 
@@ -458,41 +617,121 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('categoryFilter').value = '';
             document.getElementById('locationFilter').value = '';
+            document.getElementById('sortBy').value = 'newest';
             renderListings(listings);
         }
 
-        function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
+        // უსაფრთხოება (XSS თავიდან ასაცილებლად)
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // მოდალების მართვა
+        function openAddModal() { 
+            if(!currentUser) {
+                alert("განცხადების დასამატებლად გთხოვთ გაიაროთ ავტორიზაცია!");
+                openAuthModal();
+                return;
+            }
+            document.getElementById('addModal').style.display = 'flex'; 
+        }
         function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
-        
+
+        function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+        function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+
         function openDetailModal(item) {
+            activeListingId = item.id;
             document.getElementById('detailTitle').innerText = item.title;
             document.getElementById('detailTag').innerText = item.category;
             document.getElementById('detailProvider').innerText = `${item.providerType} - ${item.providerName}`;
             document.getElementById('detailLocation').innerText = item.location;
-            document.getElementById('detailPrice').innerText = item.price;
-            document.getElementById('detailDesc').innerText = item.desc + "\n\nსაკონტაქტო: " + item.contact;
+            document.getElementById('detailPrice').innerText = item.price + " ₾";
+            document.getElementById('detailDesc').innerText = item.desc;
+            document.getElementById('detailContact').innerText = item.contact;
+
+            const imgEl = document.getElementById('detailImg');
+            if(item.image) {
+                imgEl.src = item.image;
+                imgEl.style.display = 'block';
+            } else {
+                imgEl.style.display = 'none';
+            }
+
+            // წაშლის ღილაკი გამოუჩნდეს მხოლოდ იმას, ვინც დაამატა ან ადმინს
+            const deleteBtn = document.getElementById('deleteBtn');
+            if(currentUser && (item.userId === currentUser || currentUser === "admin")) {
+                deleteBtn.style.display = 'block';
+            } else {
+                deleteBtn.style.display = 'none';
+            }
+
             document.getElementById('detailModal').style.display = 'flex';
         }
         function closeDetailModal() { document.getElementById('detailModal').style.display = 'none'; }
 
-        function addNewListing(e) {
+        function openContactForm() {
+            document.getElementById('msgModal').style.display = 'flex';
+        }
+        function closeMsgModal() { document.getElementById('msgModal').style.display = 'none'; }
+
+        function sendDirectMessage(e) {
             e.preventDefault();
-            listings.unshift({
-                id: Date.now(),
-                providerType: document.getElementById('newProviderType').value,
-                providerName: document.getElementById('newProviderName').value,
-                title: document.getElementById('newTitle').value,
-                category: document.getElementById('newCategory').value,
-                location: document.getElementById('newLocation').value,
-                desc: document.getElementById('newDesc').value,
-                contact: document.getElementById('newContact').value,
-                price: document.getElementById('newPrice').value
-            });
-            renderListings(listings);
-            closeAddModal();
+            alert("შეტყობინება წარმატებით გაიგზავნა ავტორთან!");
+            closeMsgModal();
             e.target.reset();
         }
 
+        // ახალი განცხადების დამატება სურათით
+        function addNewListing(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('newImage');
+            
+            const createItem = (imageUrl) => {
+                const newObj = {
+                    id: Date.now(),
+                    userId: currentUser,
+                    providerType: document.getElementById('newProviderType').value,
+                    providerName: document.getElementById('newProviderName').value,
+                    title: document.getElementById('newTitle').value,
+                    category: document.getElementById('newCategory').value,
+                    location: document.getElementById('newLocation').value,
+                    desc: document.getElementById('newDesc').value,
+                    contact: document.getElementById('newContact').value,
+                    price: Number(document.getElementById('newPrice').value) || 0,
+                    image: imageUrl || '',
+                    date: Date.now()
+                };
+
+                listings.unshift(newObj);
+                saveToStorage();
+                filterListings();
+                closeAddModal();
+                e.target.reset();
+            };
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    createItem(uploadEvent.target.result);
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                createItem('');
+            }
+        }
+
+        function deleteCurrentListing() {
+            if(confirm("ნამდვილად გსურთ ამ განცხადების წაშლა?")) {
+                listings = listings.filter(i => i.id !== activeListingId);
+                saveToStorage();
+                filterListings();
+                closeDetailModal();
+            }
+        }
+
+        // ინიციალიზაცია
+        updateNav();
         renderListings(listings);
     </script>
 </body>
