@@ -1,345 +1,515 @@
 <!DOCTYPE html>
-<html lang="ka" class="dark">
+<html lang="ka">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handy.ge — პროფესიონალური ადგილობრივი სერვისები</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#0b0f19',
-                        darkCard: '#131c2e',
-                        accent: '#2563eb'
-                    }
-                }
+    <title>Handy.ge - სერვისებისა და ვაკანსიების პლატფორმა</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #cbd5e1;
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .search-filter-container {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1fr auto;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .search-filter-container {
+                grid-template-columns: 1fr;
             }
         }
-    </script>
-    <!-- Supabase JS Client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: system-ui, -apple-system, sans-serif; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+        }
+
+        .listings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .card-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #f1f5f9;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .card-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
     </style>
 </head>
-<body class="bg-darkBg text-gray-100 min-h-screen flex flex-col justify-between selection:bg-accent selection:text-white">
+<body>
 
-    <!-- Header -->
-    <header class="border-b border-gray-800/80 bg-darkCard/90 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <h1 class="text-2xl font-black tracking-wider text-white">HANDY<span class="text-accent">.GE</span></h1>
-                <span class="text-xs bg-accent/20 text-blue-400 px-2 py-0.5 rounded-full font-medium">Local Marketplace</span>
-            </div>
-            <div class="flex items-center space-x-3">
-                <button id="sosBtn" class="bg-red-600/90 hover:bg-red-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-lg flex items-center gap-1.5 transition">
-                    🚨 SOS 24/7
-                </button>
-                <button id="openModalBtn" class="bg-accent hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition shadow-md">
-                    + განცხადების დამატება
-                </button>
+    <header>
+        <div class="navbar">
+            <a href="#" class="logo">Handy.ge</a>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="openModal()">განცხადების დამატება</button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 py-6 w-full flex-grow">
-        
-        <!-- Search & Filters -->
-        <div class="bg-darkCard p-4 rounded-2xl border border-gray-800/80 mb-6 shadow-xl relative">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div class="relative">
-                    <input type="text" id="searchInput" placeholder="მოძებნე სერვისი ან #ID..." autocomplete="off" class="w-full bg-gray-900/80 border border-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-accent text-sm">
-                    <!-- Autocomplete Dropdown -->
-                    <div id="autocompleteList" class="absolute left-0 right-0 top-full mt-1 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl hidden z-50 overflow-hidden max-h-48 overflow-y-auto"></div>
-                </div>
-                <select id="cityFilter" class="bg-gray-900/80 border border-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-accent text-sm">
-                    <option value="">ყველა ქალაქი</option>
-                    <option value="თბილისი">თბილისი</option>
-                    <option value="ბათუმი">ბათუმი</option>
-                    <option value="ქუთაისი">ქუთაისი</option>
-                    <option value="რუსთავი">რუსთავი</option>
-                </select>
-                <select id="categoryFilter" class="bg-gray-900/80 border border-gray-700 text-white px-4 py-3 rounded-xl focus:outline-none focus:border-accent text-sm">
-                    <option value="">ყველა კატეგორია</option>
-                    <option value="სანტექნიკა">სანტექნიკა</option>
-                    <option value="ელექტრიკი">ელექტრიკი</option>
-                    <option value="საკეტები">საკეტები / კარი</option>
-                    <option value="დასუფთავება">დასუფთავება</option>
-                    <option value="მშენებლობა/რემონტი">მშენებლობა / რემონტი</option>
-                </select>
+    <main>
+        <section class="hero">
+            <h1>იპოვე სასურველი სერვისი ან პროფესიონალი</h1>
+            <p>შეარჩიე კატეგორია და რეგიონი მარტივად</p>
+        </section>
+
+        <!-- ფილტრები -->
+        <div class="search-filter-container">
+            <div class="form-group">
+                <label for="searchInput">ძებნა სათაურით</label>
+                <input type="text" id="searchInput" class="form-control" placeholder="მაგ: ბუღალტერი, საიტი..." oninput="filterListings()">
             </div>
             
-            <!-- Quick Hashtags -->
-            <div class="flex flex-wrap gap-2 mt-3 pt-3 border-t border-gray-800/60 text-xs">
-                <span class="text-gray-400 self-center">პოპულარული:</span>
-                <button class="tag-btn bg-gray-800/80 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-gray-300 transition" data-tag="სანტექნიკა">#სანტექნიკა</button>
-                <button class="tag-btn bg-gray-800/80 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-gray-300 transition" data-tag="ელექტრიკი">#ელექტრიკი</button>
-                <button class="tag-btn bg-gray-800/80 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-gray-300 transition" data-tag="კარის გაღება">#კარის_გაღება</button>
-                <button class="tag-btn bg-gray-800/80 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-gray-300 transition" data-tag="გათბობა">#გათბობა</button>
+            <div class="form-group">
+                <label for="categoryFilter">კატეგორია</label>
+                <select id="categoryFilter" class="form-control" onchange="filterListings()">
+                    <option value="">ყველა კატეგორია</option>
+                    <option value="ადმინისტრაცია / მენეჯმენტი">ადმინისტრაცია / მენეჯმენტი</option>
+                    <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
+                    <option value="გაყიდვები">გაყიდვები</option>
+                    <option value="PR / მარკეტინგი">PR / მარკეტინგი</option>
+                    <option value="ზოგადი ტექნიკური პერსონალი">ზოგადი ტექნიკური პერსონალი</option>
+                    <option value="ლოგისტიკა / ტრანსპორტი / დისტრიბუცია">ლოგისტიკა / ტრანსპორტი / დისტრიბუცია</option>
+                    <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
+                    <option value="დასუფთავება">დასუფთავება</option>
+                    <option value="დაცვა / უსაფრთხოება">დაცვა / უსაფრთხოება</option>
+                    <option value="IT / პროგრამირება">IT / პროგრამირება</option>
+                    <option value="მედია / გამომცემლობა">მედია / გამომცემლობა</option>
+                    <option value="განათლება">განათლება</option>
+                    <option value="სამართალი">სამართალი</option>
+                    <option value="მედიცინა / ფარმაცია">მედიცინა / ფარმაცია</option>
+                    <option value="სილამაზე / მოდა">სილამაზე / მოდა</option>
+                    <option value="კვება">კვება</option>
+                    <option value="სხვა">სხვა</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="locationFilter">რეგიონი</label>
+                <select id="locationFilter" class="form-control" onchange="filterListings()">
+                    <option value="">ნებისმიერ ადგილას</option>
+                    <option value="თბილისი">თბილისი</option>
+                    <option value="აფხაზეთის ა/რ">აფხაზეთის ა/რ</option>
+                    <option value="აჭარის ა/რ">აჭარის ა/რ</option>
+                    <option value="გურია">გურია</option>
+                    <option value="იმერეთი">იმერეთი</option>
+                    <option value="კახეთი">კახეთი</option>
+                    <option value="მცხეთა-მთიანეთი">მცხეთა-მთიანეთი</option>
+                    <option value="რაჭა-ლეჩხუმი, ქვ. სვანეთი">რაჭა-ლეჩხუმი, ქვ. სვანეთი</option>
+                    <option value="სამეგრელო-ზემო სვანეთი">სამეგრელო-ზემო სვანეთი</option>
+                    <option value="სამცხე-ჯავახეთი">სამცხე-ჯავახეთი</option>
+                    <option value="ქვემო ქართლი">ქვემო ქართლი</option>
+                    <option value="შიდა ქართლი">შიდა ქართლი</option>
+                    <option value="უცხოეთი">უცხოეთი</option>
+                    <option value="დისტანციური">დისტანციური</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="justify-content: flex-end;">
+                <button class="btn" onclick="resetFilters()" style="height: 46px;">სრულად ნახვა</button>
             </div>
         </div>
 
-        <!-- Listings Grid -->
-        <div class="mb-4 flex justify-between items-center">
-            <h2 class="text-xl font-bold">აქტიური განცხადებები</h2>
-            <span id="resultsCount" class="text-xs text-gray-400">იტვირთება...</span>
-        </div>
-        <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Dynamic Cards -->
-        </div>
-
-        <!-- Recently Viewed Section -->
-        <div id="recentSection" class="mt-12 hidden">
-            <h3 class="text-md font-bold mb-3 text-gray-400">🕒 ბოლოს მონახულებული</h3>
-            <div id="recentGrid" class="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
+        <!-- განცხადებების ბადე -->
+        <div class="listings-grid" id="listingsContainer">
+            <!-- დინამიურად ივსება JavaScript-ით -->
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-800/80 bg-darkCard/40 py-6 text-center text-xs text-gray-500">
-        <p>&copy; 2026 Handy.ge — სწორი და სწრაფი სერვისები უშუალოდ WhatsApp-ით.</p>
-    </footer>
-
-    <!-- Add Job Modal -->
-    <div id="jobModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-darkCard border border-gray-800 rounded-2xl w-full max-w-md p-6 relative shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl font-bold">&times;</button>
-            <h3 class="text-xl font-bold mb-4">ახალი განცხადების დამატება</h3>
-            <form id="jobForm" class="space-y-3">
-                <input type="text" id="title" placeholder="სათაური (მაგ: სანტექნიკის გამოძახება)" required class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
-                <textarea id="description" placeholder="აღწერა (რას აკეთებთ, რა პირობებით)..." required class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent h-20"></textarea>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="city" placeholder="ქალაქი (მაგ: ბათუმი)" required class="bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
-                    <input type="text" id="category" placeholder="კატეგორია" required class="bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
+    <!-- განცხადების დამატების მოდალური ფანჯარა -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ახალი განცხადება</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="addListingForm" onsubmit="addNewListing(event)">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>სათაური</label>
+                    <input type="text" id="newTitle" class="form-control" required placeholder="მაგ: მთავარი ბუღალტერი">
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="price" placeholder="სავარაუდო ფასი (მაგ: 30 ლარიდან)" class="bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
-                    <input type="text" id="schedule" placeholder="სამუშაო საათები (მაგ: 09:00 - 21:00)" class="bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>კატეგორია</label>
+                    <select id="newCategory" class="form-control" required>
+                        <option value="ადმინისტრაცია / მენეჯმენტი">ადმინისტრაცია / მენეჯმენტი</option>
+                        <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
+                        <option value="გაყიდვები">გაყიდვები</option>
+                        <option value="PR / მარკეტინგი">PR / მარკეტინგი</option>
+                        <option value="ზოგადი ტექნიკური პერსონალი">ზოგადი ტექნიკური პერსონალი</option>
+                        <option value="ლოგისტიკა / ტრანსპორტი / დისტრიბუცია">ლოგისტიკა / ტრანსპორტი / დისტრიბუცია</option>
+                        <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
+                        <option value="დასუფთავება">დასუფთავება</option>
+                        <option value="დაცვა / უსაფრთხოება">დაცვა / უსაფრთხოება</option>
+                        <option value="IT / პროგრამირება">IT / პროგრამირება</option>
+                        <option value="მედია / გამომცემლობა">მედია / გამომცემლობა</option>
+                        <option value="განათლება">განათლება</option>
+                        <option value="სამართალი">სამართალი</option>
+                        <option value="მედიცინა / ფარმაცია">მედიცინა / ფარმაცია</option>
+                        <option value="სილამაზე / მოდა">სილამაზე / მოდა</option>
+                        <option value="კვება">კვება</option>
+                        <option value="სხვა">სხვა</option>
+                    </select>
                 </div>
-                <input type="text" id="whatsapp" placeholder="WhatsApp ნომერი (+995...)" required class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
-                
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="duration" placeholder="სავარაუდო დრო (მაგ: 1 საათი)" class="bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
-                    <div class="flex items-center gap-2 bg-gray-900 border border-gray-700 px-3 rounded-xl">
-                        <input type="checkbox" id="is_emergency" class="w-4 h-4 accent-red-600">
-                        <label for="is_emergency" class="text-xs text-red-400 font-bold cursor-pointer">24/7 გადაუდებელი</label>
-                    </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>რეგიონი</label>
+                    <select id="newLocation" class="form-control" required>
+                        <option value="თბილისი">თბილისი</option>
+                        <option value="აფხაზეთის ა/რ">აფხაზეთის ა/რ</option>
+                        <option value="აჭარის ა/რ">აჭარის ა/რ</option>
+                        <option value="გურია">გურია</option>
+                        <option value="იმერეთი">იმერეთი</option>
+                        <option value="კახეთი">კახეთი</option>
+                        <option value="მცხეთა-მთიანეთი">მცხეთა-მთიანეთი</option>
+                        <option value="რაჭა-ლეჩხუმი, ქვ. სვანეთი">რაჭა-ლეჩხუმი, ქვ. სვანეთი</option>
+                        <option value="სამეგრელო-ზემო სვანეთი">სამეგრელო-ზემო სვანეთი</option>
+                        <option value="სამცხე-ჯავახეთი">სამცხე-ჯავახეთი</option>
+                        <option value="ქვემო ქართლი">ქვემო ქართლი</option>
+                        <option value="შიდა ქართლი">შიდა ქართლი</option>
+                        <option value="უცხოეთი">უცხოეთი</option>
+                        <option value="დისტანციური">დისტანციური</option>
+                    </select>
                 </div>
-
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">ძირითადი ფოტო URL (სურვილისამებრ)</label>
-                    <input type="text" id="imageUrl" placeholder="სურათის ბმული (http...)" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>აღწერა</label>
+                    <textarea id="newDesc" class="form-control" rows="3" required placeholder="დეტალური ინფორმაცია სერვისის შესახებ..."></textarea>
                 </div>
-
-                <button type="submit" class="w-full bg-accent hover:bg-blue-700 text-white font-semibold p-3 rounded-xl transition mt-2 shadow-md">გამოქვეყნება</button>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label>ფასები / ანაზღაურება (₾)</label>
+                    <input type="text" id="newPrice" class="form-control" required placeholder="მაგ: 1500 ₾ / თვეში">
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">დამატება</button>
             </form>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
     <script>
-        // Supabase კონფიგურაცია (თუ არ გაქვს, დემო რეჟიმში იმუშავებს ავტომატურად)
-        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co'; 
-        const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-        
-        let supabaseClient = null;
-        try {
-            if(SUPABASE_URL.includes('supabase.co')) {
-                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // საწყისი მონაცემთა ბაზა (ნიმუშები)
+        let listings = [
+            {
+                id: 1,
+                title: "მთავარი ბუღალტრის მომსახურება კომპანიებისთვის",
+                category: "ფინანსები / სტატისტიკა",
+                location: "თბილისი",
+                desc: "გთავაზობთ სრულ სავალდებულო საბუღალტრო მომსახურებას, საგადასახადო დეკლარაციების ჩაბარებას და აუდიტს.",
+                price: "1200 ₾"
+            },
+            {
+                id: 2,
+                title: "ვებ-აპლიკაციების შემუშავება (Full-stack)",
+                category: "IT / პროგრამირება",
+                location: "დისტანციური",
+                desc: "ვწერ თანამედროვე ვებსაიტებს და პლატფორმებს ინდივიდუალური დაკვეთით.",
+                price: "შეთანხმებით"
+            },
+            {
+                id: 3,
+                title: "ბინების და ოფისების რემონტი",
+                category: "მშენებლობა / რემონტი",
+                location: "აჭარის ა/რ",
+                desc: "სრული სამშენებლო და სარემონტო სამუშაოები უმოკლეს დროში, ხარისხის გარანტიით.",
+                price: "შეთანხმებით"
             }
-        } catch(e) { console.log('Supabase offline mode'); }
-
-        let allListings = [
-            { id: 101, job_id: 'HND-4081', title: 'სანტექნიკის გადაუდებელი მომსახურება', description: 'ვჭრი მილებს, შევცვლი ონკანებს და გავწმენდ გაჭედილ სისტემებს.', city: 'ბათუმი', category: 'სანტექნიკა', whatsapp: '+995555000000', is_emergency: true, duration: '30 წთ', price: '40 ლარიდან', schedule: '24/7', image_url: '' },
-            { id: 102, job_id: 'HND-4082', title: 'ელექტრიკი 24/7', description: 'დენის გავარდნა, მოკლე ჩართვა, როზეტების მონტაჟი.', city: 'თბილისი', category: 'ელექტრიკი', whatsapp: '+995555111111', is_emergency: true, duration: '1 საათი', price: '50 ლარიდან', schedule: '09:00 - 23:00', image_url: '' }
         ];
 
-        async function fetchListings() {
-            if (supabaseClient) {
-                try {
-                    const { data, error } = await supabaseClient.from('listings').select('*');
-                    if (data && data.length > 0) {
-                        allListings = data;
-                    }
-                } catch (e) { console.log('Using local fallback data'); }
-            }
-            renderListings(allListings);
-        }
+        function renderListings(items) {
+            const container = document.getElementById('listingsContainer');
+            container.innerHTML = '';
 
-        function renderListings(listings) {
-            const grid = document.getElementById('listingsGrid');
-            grid.innerHTML = '';
-            document.getElementById('resultsCount').innerText = `ნაჩვენებია: ${listings.length}`;
-
-            if(listings.length === 0) {
-                grid.innerHTML = `<p class="text-gray-500 col-span-full text-center py-8">განცხადებები ვერ მოიძებნა.</p>`;
+            if (items.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 2rem;">განცხადებები არ მოიძებნა.</p>`;
                 return;
             }
 
-            listings.forEach(item => {
-                const jobId = item.job_id || `HND-${Math.floor(1000 + Math.random() * 9000)}`;
-                const waText = encodeURIComponent(`გამარჯობა, ვნახე თქვენი განცხადება #${jobId} (${item.title}) HANDY.GE-ზე და მჭირდება დახმარება.`);
-                
+            items.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'bg-darkCard border border-gray-800/80 rounded-2xl p-5 flex flex-col justify-between hover:border-gray-700 transition shadow-lg relative overflow-hidden';
+                card.className = 'card';
                 card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="text-xs bg-gray-900 text-gray-400 px-2.5 py-1 rounded-md font-mono border border-gray-800">${jobId}</span>
-                            ${item.is_emergency ? '<span class="bg-red-500/20 text-red-400 text-xs px-2.5 py-0.5 rounded-full font-bold animate-pulse">🚨 24/7 SOS</span>' : ''}
-                        </div>
-                        <h3 class="text-lg font-bold text-white mb-1">${item.title}</h3>
-                        <p class="text-xs text-gray-400 mb-3 line-clamp-2">${item.description}</p>
-                        
-                        <div class="flex flex-wrap gap-2 text-xs text-gray-400 mb-4">
-                            <span class="bg-gray-900 px-2.5 py-1 rounded-lg">📍 ${item.city}</span>
-                            <span class="bg-gray-900 px-2.5 py-1 rounded-lg">📂 ${item.category}</span>
-                            ${item.price ? `<span class="bg-blue-950/40 text-blue-300 px-2.5 py-1 rounded-lg font-semibold">💰 ${item.price}</span>` : ''}
-                            ${item.schedule ? `<span class="bg-gray-900 px-2.5 py-1 rounded-lg">🕒 ${item.schedule}</span>` : ''}
-                            ${item.duration ? `<span class="bg-gray-900 px-2.5 py-1 rounded-lg">⏱️ ${item.duration}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <a href="https://wa.me/${item.whatsapp}?text=${waText}" target="_blank" onclick="saveRecent(${item.id || 1})" class="flex-grow bg-green-600 hover:bg-green-500 text-white font-semibold py-2.5 px-3 rounded-xl text-center text-xs transition flex items-center justify-center gap-1.5 shadow-md">
-                            💬 WhatsApp
-                        </a>
-                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('ლინკი დაკოპირდა!');" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-2.5 rounded-xl text-xs transition" title="გაზიარება">
-                            🔗
-                        </button>
+                    <span class="card-tag">${item.category}</span>
+                    <h3 class="card-title">${item.title}</h3>
+                    <p class="card-desc">${item.desc}</p>
+                    <div class="card-footer">
+                        <span>📍 ${item.location}</span>
+                        <span class="card-price">${item.price}</span>
                     </div>
                 `;
-                grid.appendChild(card);
+                container.appendChild(card);
             });
         }
 
         function filterListings() {
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const city = document.getElementById('cityFilter').value;
-            const category = document.getElementById('categoryFilter').value;
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+            const selectedLocation = document.getElementById('locationFilter').value;
 
-            const filtered = allListings.filter(item => {
-                const matchSearch = item.title.toLowerCase().includes(search) || 
-                                    item.description.toLowerCase().includes(search) || 
-                                    (item.job_id && item.job_id.toLowerCase().includes(search));
-                const matchCity = city === "" || item.city === city;
-                const matchCategory = category === "" || item.category === category;
-                return matchSearch && matchCity && matchCategory;
+            const filtered = listings.filter(item => {
+                const matchesSearch = item.title.toLowerCase().includes(searchText) || item.desc.toLowerCase().includes(searchText);
+                const matchesCategory = selectedCategory === "" || item.category === selectedCategory;
+                const matchesLocation = selectedLocation === "" || item.location === selectedLocation;
+
+                return matchesSearch && matchesCategory && matchesLocation;
             });
 
             renderListings(filtered);
-            updateAutocomplete(search);
         }
 
-        function updateAutocomplete(query) {
-            const listEl = document.getElementById('autocompleteList');
-            if(!query || query.length < 2) {
-                listEl.classList.add('hidden');
-                return;
-            }
-
-            const matches = allListings.filter(i => i.title.toLowerCase().includes(query)).slice(0, 4);
-            if(matches.length === 0) {
-                listEl.classList.add('hidden');
-                return;
-            }
-
-            listEl.innerHTML = '';
-            matches.forEach(m => {
-                const div = document.createElement('div');
-                div.className = 'px-4 py-2.5 text-xs text-gray-200 hover:bg-gray-800 cursor-pointer border-b border-gray-800/50';
-                div.innerHTML = `<b>${m.title}</b> <span class="text-gray-400">(${m.city})</span>`;
-                div.onclick = () => {
-                    document.getElementById('searchInput').value = m.title;
-                    listEl.classList.add('hidden');
-                    filterListings();
-                };
-                listEl.appendChild(div);
-            });
-            listEl.classList.remove('hidden');
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('locationFilter').value = '';
+            renderListings(listings);
         }
 
-        document.getElementById('searchInput').addEventListener('input', filterListings);
-        document.getElementById('cityFilter').addEventListener('change', filterListings);
-        document.getElementById('categoryFilter').addEventListener('change', filterListings);
-
-        document.getElementById('sosBtn').addEventListener('click', () => {
-            const emergencyList = allListings.filter(item => item.is_emergency);
-            renderListings(emergencyList);
-        });
-
-        document.querySelectorAll('.tag-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.getElementById('searchInput').value = btn.getAttribute('data-tag');
-                filterListings();
-            });
-        });
-
-        function saveRecent(id) {
-            let recent = JSON.parse(localStorage.getItem('recent_jobs') || '[]');
-            if(!recent.includes(id)) {
-                recent.unshift(id);
-                if(recent.length > 3) recent.pop();
-                localStorage.setItem('recent_jobs', JSON.stringify(recent));
-            }
-            loadRecentSection();
+        function openModal() {
+            document.getElementById('addModal').style.display = 'flex';
         }
 
-        function loadRecentSection() {
-            let recent = JSON.parse(localStorage.getItem('recent_jobs') || '[]');
-            if(recent.length > 0) {
-                document.getElementById('recentSection').classList.remove('hidden');
-                const recentGrid = document.getElementById('recentGrid');
-                recentGrid.innerHTML = '';
-                recent.forEach(id => {
-                    const item = allListings.find(l => l.id === id);
-                    if(item) {
-                        recentGrid.innerHTML += `<div class="bg-darkCard border border-gray-800 p-3 rounded-xl text-xs"><b>${item.title}</b><br><span class="text-gray-400">${item.city}</span></div>`;
-                    }
-                });
-            }
+        function closeModal() {
+            document.getElementById('addModal').style.display = 'none';
         }
 
-        const modal = document.getElementById('jobModal');
-        document.getElementById('openModalBtn').addEventListener('click', () => modal.classList.remove('hidden'));
-        document.getElementById('closeModalBtn').addEventListener('click', () => modal.classList.add('hidden'));
+        function addNewListing(event) {
+            event.preventDefault();
+            
+            const newTitle = document.getElementById('newTitle').value;
+            const newCategory = document.getElementById('newCategory').value;
+            const newLocation = document.getElementById('newLocation').value;
+            const newDesc = document.getElementById('newDesc').value;
+            const newPrice = document.getElementById('newPrice').value;
 
-        document.getElementById('jobForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newJob = {
-                id: Date.now(),
-                job_id: `HND-${Math.floor(1000 + Math.random() * 9000)}`,
-                title: document.getElementById('title').value,
-                description: document.getElementById('description').value,
-                city: document.getElementById('city').value,
-                category: document.getElementById('category').value,
-                price: document.getElementById('price').value,
-                schedule: document.getElementById('schedule').value,
-                whatsapp: document.getElementById('whatsapp').value,
-                duration: document.getElementById('duration').value,
-                is_emergency: document.getElementById('is_emergency').checked
+            const newItem = {
+                id: listings.length + 1,
+                title: newTitle,
+                category: newCategory,
+                location: newLocation,
+                desc: newDesc,
+                price: newPrice
             };
 
-            if (supabaseClient) {
-                try {
-                    await supabaseClient.from('listings').insert([newJob]);
-                } catch (err) { console.log('Insert error'); }
-            }
+            listings.unshift(newItem);
+            renderListings(listings);
+            closeModal();
+            document.getElementById('addListingForm').reset();
+        }
 
-            allListings.unshift(newJob);
-            renderListings(allListings);
-            modal.classList.add('hidden');
-            document.getElementById('jobForm').reset();
-        });
-
-        window.onload = () => {
-            fetchListings();
-            loadRecentSection();
-        };
+        // საწყისი ჩატვირთვა
+        renderListings(listings);
     </script>
 </body>
 </html>
