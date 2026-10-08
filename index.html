@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handy.ge - სერვისები და რუკა (Dark Mode)</title>
+    <title>Handy.ge - სერვისები და ვაკანსიები (Dark Mode)</title>
     <style>
         :root {
             --bg: #0f172a;
@@ -103,29 +103,6 @@
             font-size: 1.1rem;
         }
 
-        /* რუკის სექცია */
-        .map-section {
-            background: var(--card);
-            padding: 1rem;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 220px;
-            background: #090d16;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-muted);
-            font-weight: bold;
-        }
-
         /* ფილტრები */
         .search-filter-container {
             background: var(--card);
@@ -219,11 +196,17 @@
             flex-grow: 1;
         }
 
+        .card-provider {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
         .card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             padding-top: 0.8rem;
             border-top: 1px solid var(--border);
             font-size: 0.9rem;
@@ -304,35 +287,23 @@
     <main>
         <section class="hero">
             <h1>იპოვე სასურველი სერვისი ან პროფესიონალი</h1>
-            <p>მოძებნე რეგიონის, რუკისა და კატეგორიების მიხედვით</p>
-        </section>
-
-        <!-- რუკის სექცია -->
-        <section class="map-section">
-            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--text);">🗺️ საქართველოს ინტერაქტიული რუკა</h3>
-            <div class="map-container">
-                <span>რუკის ზონა (ფილტრაციისას იცვლება მდებარეობა)</span>
-            </div>
+            <p>მოძებნე რეგიონისა და კატეგორიების მიხედვით</p>
         </section>
 
         <!-- ფილტრები -->
         <div class="search-filter-container">
             <div class="form-group">
                 <label for="searchInput">ძებნა სათაურით</label>
-                <input type="text" id="searchInput" class="form-control" placeholder="მაგ: ბუღალტერი, საიტი..." oninput="filterListings()">
+                <input type="text" id="searchInput" class="form-control" placeholder="მაგ: ბუღალტერი, რემონტი..." oninput="filterListings()">
             </div>
             
             <div class="form-group">
                 <label for="categoryFilter">კატეგორია</label>
                 <select id="categoryFilter" class="form-control" onchange="filterListings()">
                     <option value="">ყველა კატეგორია</option>
-                    <option value="ადმინისტრაცია / მენეჯმენტი">ადმინისტრაცია / მენეჯმენტი</option>
                     <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
-                    <option value="გაყიდვები">გაყიდვები</option>
-                    <option value="PR / მარკეტინგი">PR / მარკეტინგი</option>
-                    <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
                     <option value="IT / პროგრამირება">IT / პროგრამირება</option>
-                    <option value="განათლება">განათლება</option>
+                    <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
                     <option value="სხვა">სხვა</option>
                 </select>
             </div>
@@ -366,11 +337,25 @@
                 <button class="close-btn" onclick="closeAddModal()">&times;</button>
             </div>
             <form onsubmit="addNewListing(event)">
-                <div class="form-group" style="margin-bottom: 1rem;">
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label>სუბიექტის ტიპი</label>
+                    <select id="newProviderType" class="form-control" required>
+                        <option value="შპს">შპს (კომპანია)</option>
+                        <option value="ი.მ">ი.მ (ინდივიდუალური მეწარმე)</option>
+                        <option value="ა(ა)ი.პ">ა(ა)ი.პ (ორგანიზაცია / ფონდი)</option>
+                        <option value="სს">სს (სააქციო საზოგადოება)</option>
+                        <option value="ფიზ. პირი">ფიზიკური პირი</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label>დასახელება / სახელი</label>
+                    <input type="text" id="newProviderName" class="form-control" required placeholder="მაგ: შპს ნოვა / გიორგი გორგია">
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>სათაური</label>
                     <input type="text" id="newTitle" class="form-control" required placeholder="მაგ: მთავარი ბუღალტერი">
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
+                <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>კატეგორია</label>
                     <select id="newCategory" class="form-control" required>
                         <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
@@ -379,23 +364,25 @@
                         <option value="სხვა">სხვა</option>
                     </select>
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
+                <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>რეგიონი</label>
                     <select id="newLocation" class="form-control" required>
                         <option value="თბილისი">თბილისი</option>
                         <option value="აჭარის ა/რ">აჭარის ა/რ</option>
+                        <option value="იმერეთი">იმერეთი</option>
+                        <option value="კახეთი">კახეთი</option>
                         <option value="დისტანციური">დისტანციური</option>
                     </select>
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
+                <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>აღწერა</label>
-                    <textarea id="newDesc" class="form-control" rows="3" required placeholder="დეტალური ინფორმაცია..."></textarea>
+                    <textarea id="newDesc" class="form-control" rows="2" required placeholder="დეტალური ინფორმაცია..."></textarea>
                 </div>
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label>საკონტაქტო</label>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label>საკონტაქტო (ტელეფონი / მეილი)</label>
                     <input type="text" id="newContact" class="form-control" required placeholder="599 00 00 00">
                 </div>
-                <div class="form-group" style="margin-bottom: 1.5rem;">
+                <div class="form-group" style="margin-bottom: 1.2rem;">
                     <label>ფასი</label>
                     <input type="text" id="newPrice" class="form-control" required placeholder="1200 ₾">
                 </div>
@@ -413,6 +400,7 @@
             </div>
             <div class="detail-info">
                 <span id="detailTag" class="card-tag">კატეგორია</span>
+                <p><strong>🏢 გამომცხადებელი:</strong> <span id="detailProvider" style="color: var(--accent); font-weight: 600;"></span></p>
                 <p><strong>📍 რეგიონი:</strong> <span id="detailLocation"></span></p>
                 <p><strong>💰 ფასი:</strong> <span id="detailPrice" style="color: var(--accent); font-weight: bold;"></span></p>
                 <p><strong>📝 აღწერა:</strong></p>
@@ -424,9 +412,8 @@
 
     <script>
         let listings = [
-            { id: 1, title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: "1200 ₾" },
-            { id: 2, title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: "შეთანხმებით" },
-            { id: 3, title: "ბინების რემონტი", category: "მშენებლობა / რემონტი", location: "აჭარის ა/რ", desc: "სარემონტო სამუშაოები ხარისხის გარანტიით.", contact: "555 44 33 22", price: "შეთანხმებით" }
+            { id: 1, providerType: "შპს", providerName: "შპს ნოვა", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: "1200 ₾" },
+            { id: 2, providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: "შეთანხმებით" }
         ];
 
         function renderListings(items) {
@@ -442,6 +429,7 @@
                 card.onclick = () => openDetailModal(item);
                 card.innerHTML = `
                     <span class="card-tag">${item.category}</span>
+                    <div class="card-provider">${item.providerType}: ${item.providerName}</div>
                     <h3 class="card-title">${item.title}</h3>
                     <p class="card-desc">${item.desc}</p>
                     <div class="card-footer">
@@ -459,7 +447,7 @@
             const loc = document.getElementById('locationFilter').value;
 
             const filtered = listings.filter(i => 
-                (i.title.toLowerCase().includes(searchText) || i.desc.toLowerCase().includes(searchText)) &&
+                (i.title.toLowerCase().includes(searchText) || i.desc.toLowerCase().includes(searchText) || i.providerName.toLowerCase().includes(searchText)) &&
                 (cat === "" || i.category === cat) &&
                 (loc === "" || i.location === loc)
             );
@@ -475,9 +463,11 @@
 
         function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
         function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+        
         function openDetailModal(item) {
             document.getElementById('detailTitle').innerText = item.title;
             document.getElementById('detailTag').innerText = item.category;
+            document.getElementById('detailProvider').innerText = `${item.providerType} - ${item.providerName}`;
             document.getElementById('detailLocation').innerText = item.location;
             document.getElementById('detailPrice').innerText = item.price;
             document.getElementById('detailDesc').innerText = item.desc + "\n\nსაკონტაქტო: " + item.contact;
@@ -489,6 +479,8 @@
             e.preventDefault();
             listings.unshift({
                 id: Date.now(),
+                providerType: document.getElementById('newProviderType').value,
+                providerName: document.getElementById('newProviderName').value,
                 title: document.getElementById('newTitle').value,
                 category: document.getElementById('newCategory').value,
                 location: document.getElementById('newLocation').value,
