@@ -20,16 +20,10 @@
             }
         }
     </script>
-    <!-- Leaflet CSS & JS for Dark Matter Map -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; }
-        .leaflet-layer, .leaflet-control-zoom-in, .leaflet-control-zoom-out, .leaflet-attribution-av {
-            filter: brightness(0.8) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
-        }
     </style>
 </head>
 <body class="bg-darkBg text-gray-100 min-h-screen flex flex-col justify-between selection:bg-accent selection:text-white">
@@ -90,12 +84,6 @@
             </div>
         </div>
 
-        <!-- Dark Map Container -->
-        <div class="mb-8">
-            <h2 class="text-lg font-bold mb-3 flex items-center gap-2">📍 ოსტატები რუკაზე</h2>
-            <div id="map" class="w-full h-72 rounded-2xl border border-gray-800 shadow-inner bg-gray-900 z-10"></div>
-        </div>
-
         <!-- Listings Grid -->
         <div class="mb-4 flex justify-between items-center">
             <h2 class="text-xl font-bold">აქტიური განცხადებები</h2>
@@ -144,13 +132,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1">ძირითადი ფოტო</label>
-                    <input type="file" id="imageFile" accept="image/*" class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-accent file:text-white hover:file:bg-blue-700 cursor-pointer">
-                </div>
-
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">ნამუშევრების გალერეა (პორტფოლიო)</label>
-                    <input type="file" id="portfolioFiles" accept="image/*" multiple class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-gray-800 file:text-gray-200 hover:file:bg-gray-700 cursor-pointer">
+                    <label class="block text-xs text-gray-400 mb-1">ძირითადი ფოტო URL (სურვილისამებრ)</label>
+                    <input type="text" id="imageUrl" placeholder="სურათის ბმული (http...)" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl text-sm focus:outline-none focus:border-accent">
                 </div>
 
                 <button type="submit" class="w-full bg-accent hover:bg-blue-700 text-white font-semibold p-3 rounded-xl transition mt-2 shadow-md">გამოქვეყნება</button>
@@ -160,53 +143,32 @@
 
     <!-- JavaScript Logic -->
     <script>
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        // Supabase კონფიგურაცია (თუ არ გაქვს, დემო რეჟიმში იმუშავებს ავტომატურად)
+        const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co'; 
         const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let supabaseClient = null;
+        try {
+            if(SUPABASE_URL.includes('supabase.co')) {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+        } catch(e) { console.log('Supabase offline mode'); }
 
-        let map;
-        let markersLayer;
-        let allListings = [];
-
-        function initMap() {
-            map = L.map('map').setView([41.6168, 41.6367], 13);
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                maxZoom: 19,
-                attribution: '&copy; CartoDB'
-            }).addTo(map);
-
-            markersLayer = L.layerGroup().addTo(map);
-            fetchListings();
-        }
-
-        function updateMapMarkers(listings) {
-            if (!markersLayer) return;
-            markersLayer.clearLayers();
-
-            listings.forEach(item => {
-                let lat = 41.6168 + (Math.random() - 0.5) * 0.05;
-                let lng = 41.6367 + (Math.random() - 0.5) * 0.05;
-                if(item.city === 'თბილისი') { lat = 41.7151; lng = 44.8271; }
-
-                const marker = L.marker([lat, lng]);
-                marker.bindPopup(`<b style="color:#000">${item.title}</b><br><span style="color:#333">${item.city}</span>`);
-                markersLayer.addLayer(marker);
-            });
-        }
+        let allListings = [
+            { id: 101, job_id: 'HND-4081', title: 'სანტექნიკის გადაუდებელი მომსახურება', description: 'ვჭრი მილებს, შევცვლი ონკანებს და გავწმენდ გაჭედილ სისტემებს.', city: 'ბათუმი', category: 'სანტექნიკა', whatsapp: '+995555000000', is_emergency: true, duration: '30 წთ', price: '40 ლარიდან', schedule: '24/7', image_url: '' },
+            { id: 102, job_id: 'HND-4082', title: 'ელექტრიკი 24/7', description: 'დენის გავარდნა, მოკლე ჩართვა, როზეტების მონტაჟი.', city: 'თბილისი', category: 'ელექტრიკი', whatsapp: '+995555111111', is_emergency: true, duration: '1 საათი', price: '50 ლარიდან', schedule: '09:00 - 23:00', image_url: '' }
+        ];
 
         async function fetchListings() {
-            allListings = [
-                { id: 101, job_id: 'HND-4081', title: 'სანტექნიკის გადაუდებელი მომსახურება', description: 'ვჭრი მილებს, შევცვლი ონკანებს და გავწმენდ გაჭედილ სისტემებს.', city: 'ბათუმი', category: 'სანტექნიკა', whatsapp: '+995555000000', is_emergency: true, duration: '30 წთ', price: '40 ლარიდან', schedule: '24/7', portfolio: [] },
-                { id: 102, job_id: 'HND-4082', title: 'ელექტრიკი 24/7', description: 'დენის გავარდნა, მოკლე ჩართვა, როზეტების მონტაჟი.', city: 'თბილისი', category: 'ელექტრიკი', whatsapp: '+995555111111', is_emergency: true, duration: '1 საათი', price: '50 ლარიდან', schedule: '09:00 - 23:00', portfolio: [] }
-            ];
-            
-            try {
-                const { data, error } = await supabaseClient.from('listings').select('*');
-                if (data && data.length > 0) allListings = data;
-            } catch (e) { console.log('Using local demo data'); }
-
+            if (supabaseClient) {
+                try {
+                    const { data, error } = await supabaseClient.from('listings').select('*');
+                    if (data && data.length > 0) {
+                        allListings = data;
+                    }
+                } catch (e) { console.log('Using local fallback data'); }
+            }
             renderListings(allListings);
-            updateMapMarkers(allListings);
         }
 
         function renderListings(listings) {
@@ -223,16 +185,6 @@
                 const jobId = item.job_id || `HND-${Math.floor(1000 + Math.random() * 9000)}`;
                 const waText = encodeURIComponent(`გამარჯობა, ვნახე თქვენი განცხადება #${jobId} (${item.title}) HANDY.GE-ზე და მჭირდება დახმარება.`);
                 
-                // პორტფოლიოს ფოტოების ჩვენება თუ არსებობს
-                let portfolioHtml = '';
-                if(item.portfolio && item.portfolio.length > 0) {
-                    portfolioHtml = `<div class="flex gap-1.5 mb-3 overflow-x-auto pb-1">`;
-                    item.portfolio.forEach(imgUrl => {
-                        portfolioHtml += `<img src="${imgUrl}" class="w-12 h-12 object-cover rounded-lg border border-gray-700 flex-shrink-0">`;
-                    });
-                    portfolioHtml += `</div>`;
-                }
-
                 const card = document.createElement('div');
                 card.className = 'bg-darkCard border border-gray-800/80 rounded-2xl p-5 flex flex-col justify-between hover:border-gray-700 transition shadow-lg relative overflow-hidden';
                 card.innerHTML = `
@@ -244,8 +196,6 @@
                         <h3 class="text-lg font-bold text-white mb-1">${item.title}</h3>
                         <p class="text-xs text-gray-400 mb-3 line-clamp-2">${item.description}</p>
                         
-                        ${portfolioHtml}
-
                         <div class="flex flex-wrap gap-2 text-xs text-gray-400 mb-4">
                             <span class="bg-gray-900 px-2.5 py-1 rounded-lg">📍 ${item.city}</span>
                             <span class="bg-gray-900 px-2.5 py-1 rounded-lg">📂 ${item.category}</span>
@@ -255,7 +205,7 @@
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <a href="https://wa.me/${item.whatsapp}?text=${waText}" target="_blank" onclick="saveRecent(${item.id})" class="flex-grow bg-green-600 hover:bg-green-500 text-white font-semibold py-2.5 px-3 rounded-xl text-center text-xs transition flex items-center justify-center gap-1.5 shadow-md">
+                        <a href="https://wa.me/${item.whatsapp}?text=${waText}" target="_blank" onclick="saveRecent(${item.id || 1})" class="flex-grow bg-green-600 hover:bg-green-500 text-white font-semibold py-2.5 px-3 rounded-xl text-center text-xs transition flex items-center justify-center gap-1.5 shadow-md">
                             💬 WhatsApp
                         </a>
                         <button onclick="navigator.clipboard.writeText(window.location.href); alert('ლინკი დაკოპირდა!');" class="bg-gray-800 hover:bg-gray-700 text-gray-300 px-3 py-2.5 rounded-xl text-xs transition" title="გაზიარება">
@@ -267,7 +217,6 @@
             });
         }
 
-        // ავტო-შემოთავაზების და ფილტრაციის ლოგიკა
         function filterListings() {
             const search = document.getElementById('searchInput').value.toLowerCase();
             const city = document.getElementById('cityFilter').value;
@@ -283,11 +232,9 @@
             });
 
             renderListings(filtered);
-            updateMapMarkers(filtered);
             updateAutocomplete(search);
         }
 
-        // ავტო-შემოთავაზების (Autocomplete) პანელის მართვა
         function updateAutocomplete(query) {
             const listEl = document.getElementById('autocompleteList');
             if(!query || query.length < 2) {
@@ -323,7 +270,6 @@
         document.getElementById('sosBtn').addEventListener('click', () => {
             const emergencyList = allListings.filter(item => item.is_emergency);
             renderListings(emergencyList);
-            updateMapMarkers(emergencyList);
         });
 
         document.querySelectorAll('.tag-btn').forEach(btn => {
@@ -365,6 +311,7 @@
         document.getElementById('jobForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const newJob = {
+                id: Date.now(),
                 job_id: `HND-${Math.floor(1000 + Math.random() * 9000)}`,
                 title: document.getElementById('title').value,
                 description: document.getElementById('description').value,
@@ -374,23 +321,23 @@
                 schedule: document.getElementById('schedule').value,
                 whatsapp: document.getElementById('whatsapp').value,
                 duration: document.getElementById('duration').value,
-                is_emergency: document.getElementById('is_emergency').checked,
-                portfolio: []
+                is_emergency: document.getElementById('is_emergency').checked
             };
 
-            try {
-                await supabaseClient.from('listings').insert([newJob]);
-            } catch (err) { console.log('Demo mode insert'); }
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('listings').insert([newJob]);
+                } catch (err) { console.log('Insert error'); }
+            }
 
             allListings.unshift(newJob);
             renderListings(allListings);
-            updateMapMarkers(allListings);
             modal.classList.add('hidden');
             document.getElementById('jobForm').reset();
         });
 
         window.onload = () => {
-            initMap();
+            fetchListings();
             loadRecentSection();
         };
     </script>
