@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handy.ge - სერვისებისა და ვაკანსიების პლატფორმა</title>
+    <title>Handy.ge - სერვისები და რუკა (Dark Mode)</title>
     <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --text-light: #64748b;
-            --border-color: #cbd5e1;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --border: #334155;
             --radius: 12px;
         }
 
@@ -24,14 +24,14 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
         }
 
         header {
-            background-color: var(--card-bg);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background-color: var(--card);
+            border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -49,40 +49,36 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--primary-color);
+            color: var(--accent);
             text-decoration: none;
         }
 
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
         .btn {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--accent);
+            color: #0f172a;
             border: none;
             padding: 0.6rem 1.2rem;
             border-radius: var(--radius);
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             transition: background-color 0.2s;
             text-decoration: none;
+            display: inline-block;
         }
 
         .btn:hover {
-            background-color: var(--primary-hover);
+            background-color: var(--accent-hover);
         }
 
         .btn-outline {
             background-color: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
+            color: var(--accent);
+            border: 2px solid var(--accent);
         }
 
         .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--accent);
+            color: #0f172a;
         }
 
         main {
@@ -93,24 +89,49 @@
 
         .hero {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .hero h1 {
             font-size: 2.2rem;
             margin-bottom: 0.5rem;
+            color: var(--text);
         }
 
         .hero p {
-            color: var(--text-light);
+            color: var(--text-muted);
             font-size: 1.1rem;
         }
 
+        /* რუკის სექცია */
+        .map-section {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 220px;
+            background: #090d16;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        /* ფილტრები */
         .search-filter-container {
-            background: var(--card-bg);
+            background: var(--card);
             padding: 1.5rem;
             border-radius: var(--radius);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
             display: grid;
             grid-template-columns: 2fr 1.5fr 1fr auto;
             gap: 1rem;
@@ -132,22 +153,26 @@
         .form-group label {
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--text-light);
+            color: var(--text-muted);
         }
 
         .form-control {
             padding: 0.75rem;
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border);
+            background-color: #0f172a;
+            color: var(--text);
             border-radius: var(--radius);
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
+            width: 100%;
         }
 
         .form-control:focus {
-            border-color: var(--primary-color);
+            border-color: var(--accent);
         }
 
+        /* ბადე და ბარათები */
         .listings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -155,26 +180,26 @@
         }
 
         .card {
-            background: var(--card-bg);
+            background: var(--card);
             border-radius: var(--radius);
             padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
-            border: 1px solid #e2e8f0;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, border-color 0.2s;
+            cursor: pointer;
         }
 
         .card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            border-color: var(--accent);
         }
 
         .card-tag {
             align-self: flex-start;
-            background-color: #eff6ff;
-            color: var(--primary-color);
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
             font-size: 0.75rem;
             font-weight: 700;
             padding: 0.25rem 0.6rem;
@@ -185,10 +210,11 @@
         .card-title {
             font-size: 1.2rem;
             font-weight: bold;
+            color: var(--text);
         }
 
         .card-desc {
-            color: var(--text-light);
+            color: var(--text-muted);
             font-size: 0.95rem;
             flex-grow: 1;
         }
@@ -199,18 +225,18 @@
             align-items: center;
             margin-top: 1rem;
             padding-top: 0.8rem;
-            border-top: 1px solid #f1f5f9;
+            border-top: 1px solid var(--border);
             font-size: 0.9rem;
-            color: var(--text-light);
+            color: var(--text-muted);
         }
 
         .card-price {
             font-weight: bold;
-            color: var(--primary-color);
+            color: var(--accent);
             font-size: 1.1rem;
         }
 
-        /* Modal Styles */
+        /* მოდალური ფანჯრები */
         .modal {
             display: none;
             position: fixed;
@@ -218,7 +244,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -226,7 +252,8 @@
         }
 
         .modal-content {
-            background: var(--card-bg);
+            background: var(--card);
+            border: 1px solid var(--border);
             padding: 2rem;
             border-radius: var(--radius);
             width: 100%;
@@ -236,6 +263,7 @@
             gap: 1rem;
             max-height: 90vh;
             overflow-y: auto;
+            color: var(--text);
         }
 
         .modal-header {
@@ -249,7 +277,18 @@
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--text-light);
+            color: var(--text-muted);
+        }
+
+        .close-btn:hover {
+            color: var(--text);
+        }
+
+        .detail-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
@@ -257,17 +296,23 @@
 
     <header>
         <div class="navbar">
-            <a href="#" class="logo">Handy.ge</a>
-            <div class="nav-buttons">
-                <button class="btn btn-outline" onclick="openModal()">განცხადების დამატება</button>
-            </div>
+            <a href="#" class="logo">Handy.ge 🌑</a>
+            <button class="btn btn-outline" onclick="openAddModal()">განცხადების დამატება</button>
         </div>
     </header>
 
     <main>
         <section class="hero">
             <h1>იპოვე სასურველი სერვისი ან პროფესიონალი</h1>
-            <p>შეარჩიე კატეგორია და რეგიონი მარტივად</p>
+            <p>მოძებნე რეგიონის, რუკისა და კატეგორიების მიხედვით</p>
+        </section>
+
+        <!-- რუკის სექცია -->
+        <section class="map-section">
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--text);">🗺️ საქართველოს ინტერაქტიული რუკა</h3>
+            <div class="map-container">
+                <span>რუკის ზონა (ფილტრაციისას იცვლება მდებარეობა)</span>
+            </div>
         </section>
 
         <!-- ფილტრები -->
@@ -285,18 +330,9 @@
                     <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
                     <option value="გაყიდვები">გაყიდვები</option>
                     <option value="PR / მარკეტინგი">PR / მარკეტინგი</option>
-                    <option value="ზოგადი ტექნიკური პერსონალი">ზოგადი ტექნიკური პერსონალი</option>
-                    <option value="ლოგისტიკა / ტრანსპორტი / დისტრიბუცია">ლოგისტიკა / ტრანსპორტი / დისტრიბუცია</option>
                     <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
-                    <option value="დასუფთავება">დასუფთავება</option>
-                    <option value="დაცვა / უსაფრთხოება">დაცვა / უსაფრთხოება</option>
                     <option value="IT / პროგრამირება">IT / პროგრამირება</option>
-                    <option value="მედია / გამომცემლობა">მედია / გამომცემლობა</option>
                     <option value="განათლება">განათლება</option>
-                    <option value="სამართალი">სამართალი</option>
-                    <option value="მედიცინა / ფარმაცია">მედიცინა / ფარმაცია</option>
-                    <option value="სილამაზე / მოდა">სილამაზე / მოდა</option>
-                    <option value="კვება">კვება</option>
                     <option value="სხვა">სხვა</option>
                 </select>
             </div>
@@ -306,41 +342,30 @@
                 <select id="locationFilter" class="form-control" onchange="filterListings()">
                     <option value="">ნებისმიერ ადგილას</option>
                     <option value="თბილისი">თბილისი</option>
-                    <option value="აფხაზეთის ა/რ">აფხაზეთის ა/რ</option>
                     <option value="აჭარის ა/რ">აჭარის ა/რ</option>
-                    <option value="გურია">გურია</option>
                     <option value="იმერეთი">იმერეთი</option>
                     <option value="კახეთი">კახეთი</option>
-                    <option value="მცხეთა-მთიანეთი">მცხეთა-მთიანეთი</option>
-                    <option value="რაჭა-ლეჩხუმი, ქვ. სვანეთი">რაჭა-ლეჩხუმი, ქვ. სვანეთი</option>
-                    <option value="სამეგრელო-ზემო სვანეთი">სამეგრელო-ზემო სვანეთი</option>
-                    <option value="სამცხე-ჯავახეთი">სამცხე-ჯავახეთი</option>
-                    <option value="ქვემო ქართლი">ქვემო ქართლი</option>
-                    <option value="შიდა ქართლი">შიდა ქართლი</option>
-                    <option value="უცხოეთი">უცხოეთი</option>
                     <option value="დისტანციური">დისტანციური</option>
                 </select>
             </div>
 
             <div class="form-group" style="justify-content: flex-end;">
-                <button class="btn" onclick="resetFilters()" style="height: 46px;">სრულად ნახვა</button>
+                <button class="btn" onclick="resetFilters()" style="height: 46px;">გასუფთავება</button>
             </div>
         </div>
 
         <!-- განცხადებების ბადე -->
-        <div class="listings-grid" id="listingsContainer">
-            <!-- დინამიურად ივსება JavaScript-ით -->
-        </div>
+        <div class="listings-grid" id="listingsContainer"></div>
     </main>
 
-    <!-- განცხადების დამატების მოდალური ფანჯარა -->
+    <!-- დამატების მოდალი -->
     <div class="modal" id="addModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>ახალი განცხადება</h2>
-                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <button class="close-btn" onclick="closeAddModal()">&times;</button>
             </div>
-            <form id="addListingForm" onsubmit="addNewListing(event)">
+            <form onsubmit="addNewListing(event)">
                 <div class="form-group" style="margin-bottom: 1rem;">
                     <label>სათაური</label>
                     <input type="text" id="newTitle" class="form-control" required placeholder="მაგ: მთავარი ბუღალტერი">
@@ -348,22 +373,9 @@
                 <div class="form-group" style="margin-bottom: 1rem;">
                     <label>კატეგორია</label>
                     <select id="newCategory" class="form-control" required>
-                        <option value="ადმინისტრაცია / მენეჯმენტი">ადმინისტრაცია / მენეჯმენტი</option>
                         <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
-                        <option value="გაყიდვები">გაყიდვები</option>
-                        <option value="PR / მარკეტინგი">PR / მარკეტინგი</option>
-                        <option value="ზოგადი ტექნიკური პერსონალი">ზოგადი ტექნიკური პერსონალი</option>
-                        <option value="ლოგისტიკა / ტრანსპორტი / დისტრიბუცია">ლოგისტიკა / ტრანსპორტი / დისტრიბუცია</option>
-                        <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
-                        <option value="დასუფთავება">დასუფთავება</option>
-                        <option value="დაცვა / უსაფრთხოება">დაცვა / უსაფრთხოება</option>
                         <option value="IT / პროგრამირება">IT / პროგრამირება</option>
-                        <option value="მედია / გამომცემლობა">მედია / გამომცემლობა</option>
-                        <option value="განათლება">განათლება</option>
-                        <option value="სამართალი">სამართალი</option>
-                        <option value="მედიცინა / ფარმაცია">მედიცინა / ფარმაცია</option>
-                        <option value="სილამაზე / მოდა">სილამაზე / მოდა</option>
-                        <option value="კვება">კვება</option>
+                        <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
                         <option value="სხვა">სხვა</option>
                     </select>
                 </div>
@@ -371,75 +383,63 @@
                     <label>რეგიონი</label>
                     <select id="newLocation" class="form-control" required>
                         <option value="თბილისი">თბილისი</option>
-                        <option value="აფხაზეთის ა/რ">აფხაზეთის ა/რ</option>
                         <option value="აჭარის ა/რ">აჭარის ა/რ</option>
-                        <option value="გურია">გურია</option>
-                        <option value="იმერეთი">იმერეთი</option>
-                        <option value="კახეთი">კახეთი</option>
-                        <option value="მცხეთა-მთიანეთი">მცხეთა-მთიანეთი</option>
-                        <option value="რაჭა-ლეჩხუმი, ქვ. სვანეთი">რაჭა-ლეჩხუმი, ქვ. სვანეთი</option>
-                        <option value="სამეგრელო-ზემო სვანეთი">სამეგრელო-ზემო სვანეთი</option>
-                        <option value="სამცხე-ჯავახეთი">სამცხე-ჯავახეთი</option>
-                        <option value="ქვემო ქართლი">ქვემო ქართლი</option>
-                        <option value="შიდა ქართლი">შიდა ქართლი</option>
-                        <option value="უცხოეთი">უცხოეთი</option>
                         <option value="დისტანციური">დისტანციური</option>
                     </select>
                 </div>
                 <div class="form-group" style="margin-bottom: 1rem;">
                     <label>აღწერა</label>
-                    <textarea id="newDesc" class="form-control" rows="3" required placeholder="დეტალური ინფორმაცია სერვისის შესახებ..."></textarea>
+                    <textarea id="newDesc" class="form-control" rows="3" required placeholder="დეტალური ინფორმაცია..."></textarea>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label>საკონტაქტო</label>
+                    <input type="text" id="newContact" class="form-control" required placeholder="599 00 00 00">
                 </div>
                 <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label>ფასები / ანაზღაურება (₾)</label>
-                    <input type="text" id="newPrice" class="form-control" required placeholder="მაგ: 1500 ₾ / თვეში">
+                    <label>ფასი</label>
+                    <input type="text" id="newPrice" class="form-control" required placeholder="1200 ₾">
                 </div>
                 <button type="submit" class="btn" style="width: 100%;">დამატება</button>
             </form>
         </div>
     </div>
 
+    <!-- დეტალების მოდალი -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="detailTitle">სათაური</h2>
+                <button class="close-btn" onclick="closeDetailModal()">&times;</button>
+            </div>
+            <div class="detail-info">
+                <span id="detailTag" class="card-tag">კატეგორია</span>
+                <p><strong>📍 რეგიონი:</strong> <span id="detailLocation"></span></p>
+                <p><strong>💰 ფასი:</strong> <span id="detailPrice" style="color: var(--accent); font-weight: bold;"></span></p>
+                <p><strong>📝 აღწერა:</strong></p>
+                <p id="detailDesc" style="color: var(--text-muted); background: #090d16; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);"></p>
+            </div>
+            <button class="btn" style="width: 100%;" onclick="alert('შეტყობინება გაიგზავნა!'); closeDetailModal();">გამოხმაურება</button>
+        </div>
+    </div>
+
     <script>
-        // საწყისი მონაცემთა ბაზა (ნიმუშები)
         let listings = [
-            {
-                id: 1,
-                title: "მთავარი ბუღალტრის მომსახურება კომპანიებისთვის",
-                category: "ფინანსები / სტატისტიკა",
-                location: "თბილისი",
-                desc: "გთავაზობთ სრულ სავალდებულო საბუღალტრო მომსახურებას, საგადასახადო დეკლარაციების ჩაბარებას და აუდიტს.",
-                price: "1200 ₾"
-            },
-            {
-                id: 2,
-                title: "ვებ-აპლიკაციების შემუშავება (Full-stack)",
-                category: "IT / პროგრამირება",
-                location: "დისტანციური",
-                desc: "ვწერ თანამედროვე ვებსაიტებს და პლატფორმებს ინდივიდუალური დაკვეთით.",
-                price: "შეთანხმებით"
-            },
-            {
-                id: 3,
-                title: "ბინების და ოფისების რემონტი",
-                category: "მშენებლობა / რემონტი",
-                location: "აჭარის ა/რ",
-                desc: "სრული სამშენებლო და სარემონტო სამუშაოები უმოკლეს დროში, ხარისხის გარანტიით.",
-                price: "შეთანხმებით"
-            }
+            { id: 1, title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: "1200 ₾" },
+            { id: 2, title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: "შეთანხმებით" },
+            { id: 3, title: "ბინების რემონტი", category: "მშენებლობა / რემონტი", location: "აჭარის ა/რ", desc: "სარემონტო სამუშაოები ხარისხის გარანტიით.", contact: "555 44 33 22", price: "შეთანხმებით" }
         ];
 
         function renderListings(items) {
             const container = document.getElementById('listingsContainer');
             container.innerHTML = '';
-
             if (items.length === 0) {
-                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 2rem;">განცხადებები არ მოიძებნა.</p>`;
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">განცხადებები არ მოიძებნა.</p>`;
                 return;
             }
-
             items.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                card.onclick = () => openDetailModal(item);
                 card.innerHTML = `
                     <span class="card-tag">${item.category}</span>
                     <h3 class="card-title">${item.title}</h3>
@@ -455,17 +455,14 @@
 
         function filterListings() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
-            const selectedCategory = document.getElementById('categoryFilter').value;
-            const selectedLocation = document.getElementById('locationFilter').value;
+            const cat = document.getElementById('categoryFilter').value;
+            const loc = document.getElementById('locationFilter').value;
 
-            const filtered = listings.filter(item => {
-                const matchesSearch = item.title.toLowerCase().includes(searchText) || item.desc.toLowerCase().includes(searchText);
-                const matchesCategory = selectedCategory === "" || item.category === selectedCategory;
-                const matchesLocation = selectedLocation === "" || item.location === selectedLocation;
-
-                return matchesSearch && matchesCategory && matchesLocation;
-            });
-
+            const filtered = listings.filter(i => 
+                (i.title.toLowerCase().includes(searchText) || i.desc.toLowerCase().includes(searchText)) &&
+                (cat === "" || i.category === cat) &&
+                (loc === "" || i.location === loc)
+            );
             renderListings(filtered);
         }
 
@@ -476,39 +473,34 @@
             renderListings(listings);
         }
 
-        function openModal() {
-            document.getElementById('addModal').style.display = 'flex';
+        function openAddModal() { document.getElementById('addModal').style.display = 'flex'; }
+        function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+        function openDetailModal(item) {
+            document.getElementById('detailTitle').innerText = item.title;
+            document.getElementById('detailTag').innerText = item.category;
+            document.getElementById('detailLocation').innerText = item.location;
+            document.getElementById('detailPrice').innerText = item.price;
+            document.getElementById('detailDesc').innerText = item.desc + "\n\nსაკონტაქტო: " + item.contact;
+            document.getElementById('detailModal').style.display = 'flex';
         }
+        function closeDetailModal() { document.getElementById('detailModal').style.display = 'none'; }
 
-        function closeModal() {
-            document.getElementById('addModal').style.display = 'none';
-        }
-
-        function addNewListing(event) {
-            event.preventDefault();
-            
-            const newTitle = document.getElementById('newTitle').value;
-            const newCategory = document.getElementById('newCategory').value;
-            const newLocation = document.getElementById('newLocation').value;
-            const newDesc = document.getElementById('newDesc').value;
-            const newPrice = document.getElementById('newPrice').value;
-
-            const newItem = {
-                id: listings.length + 1,
-                title: newTitle,
-                category: newCategory,
-                location: newLocation,
-                desc: newDesc,
-                price: newPrice
-            };
-
-            listings.unshift(newItem);
+        function addNewListing(e) {
+            e.preventDefault();
+            listings.unshift({
+                id: Date.now(),
+                title: document.getElementById('newTitle').value,
+                category: document.getElementById('newCategory').value,
+                location: document.getElementById('newLocation').value,
+                desc: document.getElementById('newDesc').value,
+                contact: document.getElementById('newContact').value,
+                price: document.getElementById('newPrice').value
+            });
             renderListings(listings);
-            closeModal();
-            document.getElementById('addListingForm').reset();
+            closeAddModal();
+            e.target.reset();
         }
 
-        // საწყისი ჩატვირთვა
         renderListings(listings);
     </script>
 </body>
