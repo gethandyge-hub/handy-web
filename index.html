@@ -319,9 +319,7 @@
     <header>
         <div class="navbar">
             <a href="#" class="logo">Handy.ge 🌑</a>
-            <div class="nav-right" id="navRightSection">
-                <!-- დინამიკურად ივსება სკრიპტით (ავტორიზაცია) -->
-            </div>
+            <div class="nav-right" id="navRightSection"></div>
         </div>
     </header>
 
@@ -490,25 +488,48 @@
         </div>
     </div>
 
-    <!-- შესვლის / რეგისტრაციის მოდალი -->
+    <!-- შესვლის / რეგისტრაციის მოდალი (ტელეფონი ან მეილი + OTP კოდი) -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>ავტორიზაცია</h2>
+                <h2>შესვლა / რეგისტრაცია</h2>
                 <button class="close-btn" onclick="closeAuthModal()">&times;</button>
             </div>
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group" style="margin-bottom: 1.2rem;">
-                    <label>სახელი / კომპანიის სახელი</label>
-                    <input type="text" id="loginNameInput" class="form-control" required placeholder="მაგ: გიორგი">
-                </div>
-                <button type="submit" class="btn" style="width: 100%;">შესვლა სისტემაში</button>
-            </form>
+            
+            <!-- ნაბიჯი 1: ტელეფონის ან მეილის შეყვანა -->
+            <div id="step1Container">
+                <form onsubmit="requestOtp(event)">
+                    <div class="form-group" style="margin-bottom: 0.8rem;">
+                        <label>მობილური ნომერი ან ელ-ფოსტა</label>
+                        <input type="text" id="userContactInput" class="form-control" required placeholder="მაგ: 599122334 ან example@gmail.com">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.2rem;">
+                        <label>შენი სახელი / კომპანია</label>
+                        <input type="text" id="userNameInput" class="form-control" required placeholder="მაგ: გიორგი">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">ერთჯერადი კოდის მიღება</button>
+                </form>
+            </div>
+
+            <!-- ნაბიჯი 2: კოდის დადასტურება -->
+            <div id="step2Container" style="display: none;">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
+                    ერთჯერადი კოდი გაიგზავნა მითითებულ მისამართზე/ნომერზე: <strong id="sentToText" style="color: var(--accent);"></strong>
+                </p>
+                <form onsubmit="verifyOtp(event)">
+                    <div class="form-group" style="margin-bottom: 1.2rem;">
+                        <label>შეიყვანეთ 4-ნიშნა კოდი</label>
+                        <input type="text" id="otpCodeInput" class="form-control" maxlength="4" required placeholder="1234" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem;">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">კოდის დადასტურება და შესვლა</button>
+                    <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="backToStep1()">უკან დაბრუნება</button>
+                </form>
+            </div>
+
         </div>
     </div>
 
     <script>
-        // საწყისი მონაცემები ან LocalStorage-დან წამოღება
         let listings = JSON.parse(localStorage.getItem('handy_listings')) || [
             { id: 1, userId: "admin", providerType: "შპს", providerName: "შპს ნოვა", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: 1200, image: "", date: Date.now() - 10000 },
             { id: 2, userId: "admin", providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: 500, image: "", date: Date.now() }
@@ -516,37 +537,65 @@
 
         let currentUser = localStorage.getItem('handy_user') || null;
         let activeListingId = null;
+        
+        let tempContact = '';
+        let tempName = '';
+        let generatedOtp = '';
 
         function saveToStorage() {
             localStorage.setItem('handy_listings', JSON.stringify(listings));
         }
 
-        // ნავიგაციის განახლება (ავტორიზაციის სტატუსი)
         function updateNav() {
             const navRight = document.getElementById('navRightSection');
             if (currentUser) {
                 navRight.innerHTML = `
                     <span class="user-badge">👤 ${currentUser}</span>
                     <button class="btn" onclick="openAddModal()">+ განცხადება</button>
-                    <button class="btn btn-outline" onclick="logout()">მოსვლა/გასვლა</button>
+                    <button class="btn btn-outline" onclick="logout()">გასვლა</button>
                 `;
             } else {
                 navRight.innerHTML = `
                     <button class="btn" onclick="openAddModal()">+ განცხადება</button>
-                    <button class="btn btn-outline" onclick="openAuthModal()">შესვლა</button>
+                    <button class="btn btn-outline" onclick="openAuthModal()">შესვლა / რეგისტრაცია</button>
                 `;
             }
         }
 
-        function handleLogin(e) {
+        function requestOtp(e) {
             e.preventDefault();
-            const name = document.getElementById('loginNameInput').value.trim();
-            if(name) {
-                currentUser = name;
+            tempContact = document.getElementById('userContactInput').value.trim();
+            tempName = document.getElementById('userNameInput').value.trim();
+            
+            generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
+            
+            // სიმულაცია: ეკრანზე გამოაქვს შეტყობინება კოდით (ვითომ SMS ან Email მოუვიდა)
+            alert(`[სიმულაცია - SMS / Email]\nთქვენი ერთჯერადი კოდია: ${generatedOtp}`);
+
+            document.getElementById('sentToText').innerText = tempContact;
+            document.getElementById('step1Container').style.display = 'none';
+            document.getElementById('step2Container').style.display = 'block';
+        }
+
+        function verifyOtp(e) {
+            e.preventDefault();
+            const userEnteredCode = document.getElementById('otpCodeInput').value.trim();
+
+            if (userEnteredCode === generatedOtp) {
+                currentUser = tempName;
                 localStorage.setItem('handy_user', currentUser);
                 updateNav();
                 closeAuthModal();
+                alert("ავტორიზაცია წარმატებით დასრულდა!");
+            } else {
+                alert("არასწორი კოდია! სცადეთ თავიდან.");
             }
+        }
+
+        function backToStep1() {
+            document.getElementById('step2Container').style.display = 'none';
+            document.getElementById('step1Container').style.display = 'block';
+            document.getElementById('otpCodeInput').value = '';
         }
 
         function logout() {
@@ -556,7 +605,6 @@
             renderListings(listings);
         }
 
-        // რენდერი (ბარათების გამოჩენა)
         function renderListings(items) {
             const container = document.getElementById('listingsContainer');
             container.innerHTML = '';
@@ -588,7 +636,6 @@
             });
         }
 
-        // ძებნა და სორტირება
         function filterListings() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();
             const cat = document.getElementById('categoryFilter').value;
@@ -601,7 +648,6 @@
                 (loc === "" || i.location === loc)
             );
 
-            // სორტირება
             if (sortBy === 'newest') {
                 filtered.sort((a, b) => b.date - a.date);
             } else if (sortBy === 'price-asc') {
@@ -621,12 +667,10 @@
             renderListings(listings);
         }
 
-        // უსაფრთხოება (XSS თავიდან ასაცილებლად)
         function escapeHtml(text) {
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
 
-        // მოდალების მართვა
         function openAddModal() { 
             if(!currentUser) {
                 alert("განცხადების დასამატებლად გთხოვთ გაიაროთ ავტორიზაცია!");
@@ -637,7 +681,13 @@
         }
         function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
 
-        function openAuthModal() { document.getElementById('authModal').style.display = 'flex'; }
+        function openAuthModal() { 
+            document.getElementById('step1Container').style.display = 'block';
+            document.getElementById('step2Container').style.display = 'none';
+            document.getElementById('userContactInput').value = '';
+            document.getElementById('userNameInput').value = '';
+            document.getElementById('authModal').style.display = 'flex'; 
+        }
         function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
 
         function openDetailModal(item) {
@@ -658,7 +708,6 @@
                 imgEl.style.display = 'none';
             }
 
-            // წაშლის ღილაკი გამოუჩნდეს მხოლოდ იმას, ვინც დაამატა ან ადმინს
             const deleteBtn = document.getElementById('deleteBtn');
             if(currentUser && (item.userId === currentUser || currentUser === "admin")) {
                 deleteBtn.style.display = 'block';
@@ -670,9 +719,7 @@
         }
         function closeDetailModal() { document.getElementById('detailModal').style.display = 'none'; }
 
-        function openContactForm() {
-            document.getElementById('msgModal').style.display = 'flex';
-        }
+        function openContactForm() { document.getElementById('msgModal').style.display = 'flex'; }
         function closeMsgModal() { document.getElementById('msgModal').style.display = 'none'; }
 
         function sendDirectMessage(e) {
@@ -682,7 +729,6 @@
             e.target.reset();
         }
 
-        // ახალი განცხადების დამატება სურათით
         function addNewListing(e) {
             e.preventDefault();
             const fileInput = document.getElementById('newImage');
@@ -730,7 +776,6 @@
             }
         }
 
-        // ინიციალიზაცია
         updateNav();
         renderListings(listings);
     </script>
