@@ -41,14 +41,16 @@
         .navbar {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: var(--accent);
             text-decoration: none;
@@ -56,21 +58,23 @@
 
         .nav-right {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .btn {
             background-color: var(--accent);
             color: #0f172a;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.5rem 1rem;
             border-radius: var(--radius);
             cursor: pointer;
             font-weight: 700;
             transition: background-color 0.2s;
             text-decoration: none;
             display: inline-block;
+            font-size: 0.9rem;
         }
 
         .btn:hover {
@@ -105,14 +109,14 @@
         }
 
         .hero h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 0.5rem;
             color: var(--text);
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         /* ფილტრები და სორტირება */
@@ -308,7 +312,7 @@
             background: rgba(56, 189, 248, 0.15);
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--accent);
             font-weight: 600;
         }
@@ -331,6 +335,20 @@
         footer a:hover {
             text-decoration: underline;
         }
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+            .btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            .user-badge {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -339,8 +357,7 @@
         <div class="navbar">
             <a href="#" class="logo">Handy.ge 🌑</a>
             <div class="nav-right" id="navRightSection">
-                <!-- ენის გადამრთველი -->
-                <select id="langSwitch" class="form-control" style="width: auto; padding: 0.4rem;" onchange="changeLanguage(this.value)">
+                <select id="langSwitch" class="form-control" style="width: auto; padding: 0.3rem 0.5rem; font-size: 0.85rem;" onchange="changeLanguage(this.value)">
                     <option value="ka">ქართული</option>
                     <option value="en">English</option>
                 </select>
@@ -573,7 +590,6 @@
     </div>
 
     <script>
-        // მრავალენოვანი ლექსიკონი
         const translations = {
             ka: {
                 pageTitle: "Handy.ge - პროფესიონალური პლატფორმა",
@@ -687,7 +703,6 @@
             document.getElementById('htmlRoot').lang = lang;
             document.getElementById('langSwitch').value = lang;
 
-            // ტექსტების განახლება data-i18n ატრიბუტით
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang][key]) {
@@ -695,7 +710,6 @@
                 }
             });
 
-            // ცალკეული ატრიბუტები და ეტიკეტები
             document.getElementById('pageTitle').innerText = translations[lang].pageTitle;
             document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
             document.getElementById('heroDesc').innerText = translations[lang].heroDesc;
@@ -727,7 +741,6 @@
         function updateNav() {
             const navRight = document.getElementById('navRightSection');
             const t = translations[currentLang];
-            
             let langSelectHtml = navRight.querySelector('select').outerHTML;
 
             if (currentUser) {
@@ -964,7 +977,6 @@
             }
         }
 
-        // საიტის ჩატვირთვისას შენახული ენის მიხედვით რენდერი
         changeLanguage(currentLang);
         renderListings(listings);
     </script>
