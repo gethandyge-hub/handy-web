@@ -100,24 +100,26 @@
 
         main {
             max-width: 1200px;
-            margin: 2rem auto;
+            margin: 1.5rem auto 2rem auto;
             padding: 0 1rem;
         }
 
         .hero {
             text-align: center;
             margin-bottom: 2rem;
+            padding-top: 0.5rem;
         }
 
         .hero h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
             color: var(--text);
+            line-height: 1.3;
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         /* 💡 დღის რჩევის და ტოპ ოსტატების ბლოკი */
@@ -400,7 +402,7 @@
         <div class="info-panels">
             <div class="panel-box">
                 <h3>💡 დღის სასარგებლო რჩევა</h3>
-                <p id="dailyTipText">იტვირთება რჩევა...</p>
+                <p id="dailyTipText">🛠️ ხელოსნის აყვანამდე ყოველთვის წინასწარ შეათანხმეთ არა მხოლოდ ფასი, არამედ ვადებიც.</p>
             </div>
             <div class="panel-box">
                 <h3>⭐ თვის საუკეთესო სპეციალისტები</h3>
@@ -630,20 +632,21 @@
     </div>
 
     <script>
-        // 💡 მუდმივად ცვალებადი რჩევების სია (არასოდეს იქნება მოსაწყენი!)
         const dailyTips = [
             "🛠️ ხელოსნის აყვანამდე ყოველთვის წინასწარ შეათანხმეთ არა მხოლოდ ფასი, არამედ ვადებიც.",
             "📊 მცირე ბიზნესის სტატუსის (1% გადასახადი) მისაღებად განაცხადი მარტივად ივსება rs.ge პორტალზე.",
-            "💡 რემონტის დროს მასალები ყოველთვის 10-15%-იანი მარაგიტ შეიძინეთ.",
+            "💡 რემონტის დროს მასალები ყოველთვის 10-15%-იანი მარაგით შეიძინეთ.",
             "💻 კარგ ვებსაიტს მობილურზეც ისეთივე იდეალური დიზაინი უნდა ჰქონდეს, როგორც კომპიუტერში.",
             "⭐ სანდოობის ასამაღლებლად სერვისის შეთავაზებისას მიუთითეთ რეალური ფოტოები და ნამუშევრები.",
             "📞 მომხმარებელს სწრაფი პასუხი ზრდის შანსს, რომ შეკვეთა ზუსტად თქვენ მოგენდოთ!"
         ];
 
-        // ავტომატურად ირჩევს შემთხვევით რჩევას საიტის ჩატვირთვისას
         function loadRandomTip() {
-            const randomIndex = Math.floor(Math.random() * dailyTips.length);
-            document.getElementById('dailyTipText').innerText = dailyTips[randomIndex];
+            const tipEl = document.getElementById('dailyTipText');
+            if (tipEl) {
+                const randomIndex = Math.floor(Math.random() * dailyTips.length);
+                tipEl.innerText = dailyTips[randomIndex];
+            }
         }
 
         let listings = JSON.parse(localStorage.getItem('handy_listings')) || [
@@ -855,7 +858,7 @@
                 const newObj = {
                     id: Date.now(),
                     userId: currentUser,
-                    providerType: document.getElementById('newProviderType'].value,
+                    providerType: document.getElementById('newProviderType').value,
                     providerName: document.getElementById('newProviderName').value,
                     title: document.getElementById('newTitle').value,
                     category: document.getElementById('newCategory').value,
@@ -894,10 +897,11 @@
             }
         }
 
-        // საიტის ჩატვირთვისას რჩევის გენერაცია
-        loadRandomTip();
-        updateNav();
-        renderListings(listings);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadRandomTip();
+            updateNav();
+            renderListings(listings);
+        });
     </script>
 </body>
 </html>
