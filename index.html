@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="ka">
+<html lang="ka" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handy.ge - პროფესიონალური პლატფორმა</title>
+    <title id="pageTitle">Handy.ge - პროფესიონალური პლატფორმა</title>
     <style>
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
+            --card: rgba(30, 41, 59, 0.85);
             --text: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #38bdf8;
             --accent-hover: #0ea5e9;
-            --border: #334155;
+            --border: rgba(51, 65, 85, 0.6);
             --radius: 12px;
             --danger: #f43f5e;
             --success: #10b981;
@@ -25,8 +24,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        /* 💡 სუფთა, დინამიკური ფონი ფოტოთი და მცურავი ანიმაციით */
         body {
-            background-color: var(--bg);
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)), 
+                        url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
             color: var(--text);
             line-height: 1.6;
             position: relative;
@@ -34,23 +36,29 @@
             min-height: 100vh;
         }
 
-        /* ფონის დეკორატიული განათებები */
-        .bg-glow {
+        /* ფონის ნაზი მოძრავი ანიმაცია სიცოცხლისთვის */
+        @keyframes floatAnimation {
+            0% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-15px) scale(1.03); }
+            100% { transform: translateY(0px) scale(1); }
+        }
+
+        .animated-bg-shape {
             position: fixed;
-            width: 350px;
-            height: 350px;
-            background: rgba(56, 189, 248, 0.07);
-            filter: blur(90px);
-            border-radius: 50%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0) 70%);
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: -1;
             pointer-events: none;
+            animation: floatAnimation 8s ease-in-out infinite;
         }
-        .glow-1 { top: -100px; left: -100px; }
-        .glow-2 { bottom: -100px; right: -100px; background: rgba(14, 165, 233, 0.05); }
 
         header {
-            background-color: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(10px);
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -143,7 +151,7 @@
             font-size: 0.95rem;
         }
 
-        /* დღის რჩევის და თვის ლიდერების ბლოკი */
+        /* ინფორმაციის პანელები */
         .info-panels {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -158,11 +166,12 @@
         }
 
         .panel-box {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(8px);
+            background: var(--card);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
             padding: 1.2rem;
             border-radius: var(--radius);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         .panel-box h3 {
@@ -189,8 +198,8 @@
 
         /* ფილტრები და სორტირება */
         .search-filter-container {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(8px);
+            background: var(--card);
+            backdrop-filter: blur(10px);
             padding: 1.5rem;
             border-radius: var(--radius);
             border: 1px solid var(--border);
@@ -198,6 +207,7 @@
             grid-template-columns: 2fr 1.5fr 1fr 1fr auto;
             gap: 1rem;
             margin-bottom: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         @media (max-width: 900px) {
@@ -221,7 +231,7 @@
         .form-control {
             padding: 0.75rem;
             border: 1px solid var(--border);
-            background-color: rgba(15, 23, 42, 0.8);
+            background-color: rgba(15, 23, 42, 0.7);
             color: var(--text);
             border-radius: var(--radius);
             font-size: 1rem;
@@ -242,8 +252,8 @@
         }
 
         .card {
-            background: rgba(30, 41, 59, 0.75);
-            backdrop-filter: blur(8px);
+            background: var(--card);
+            backdrop-filter: blur(10px);
             border-radius: var(--radius);
             overflow: hidden;
             border: 1px solid var(--border);
@@ -251,12 +261,13 @@
             flex-direction: column;
             transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
             cursor: pointer;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
         }
 
         .card:hover {
             transform: translateY(-3px);
             border-color: var(--accent);
-            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.1);
+            box-shadow: 0 12px 40px 0 rgba(56, 189, 248, 0.15);
         }
 
         .card-img {
@@ -332,8 +343,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(6px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -341,7 +352,8 @@
         }
 
         .modal-content {
-            background: var(--card);
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             padding: 2rem;
             border-radius: var(--radius);
@@ -353,6 +365,7 @@
             max-height: 90vh;
             overflow-y: auto;
             color: var(--text);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
         }
 
         .modal-header {
@@ -411,29 +424,34 @@
 </head>
 <body>
 
-    <div class="bg-glow glow-1"></div>
-    <div class="bg-glow glow-2"></div>
+    <!-- ფონის ანიმაციური ელემენტი -->
+    <div class="animated-bg-shape"></div>
 
     <header>
         <div class="navbar">
             <a href="#" class="logo">Handy.ge 🌑</a>
-            <div class="nav-right" id="navRightSection"></div>
+            <div class="nav-right" id="navRightSection">
+                <select id="langSwitch" class="form-control" style="width: auto; padding: 0.3rem 0.5rem; font-size: 0.85rem;" onchange="changeLanguage(this.value)">
+                    <option value="ka">ქართული</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
         </div>
     </header>
 
     <main>
         <section class="hero">
-            <h1>პროფესიონალური სერვისები და ვაკანსიები</h1>
-            <p>იპოვე სანდო კომპანია, ხელოსანი ან სპეციალისტები შენს რეგიონში</p>
+            <h1 id="heroTitle">პროფესიონალური სერვისები და ვაკანსიები</h1>
+            <p id="heroDesc">იპოვე სანდო კომპანია, ხელოსანი ან სპეციალისტები შენს რეგიონში</p>
         </section>
 
         <div class="info-panels">
             <div class="panel-box">
-                <h3>💡 დღის სასარგებლო რჩევა</h3>
+                <h3 id="panelTipTitle">💡 დღის სასარგებლო რჩევა</h3>
                 <p id="dailyTipText">იტვირთება რჩევა...</p>
             </div>
             <div class="panel-box">
-                <h3>⭐ თვის საუკეთესო სპეციალისტები</h3>
+                <h3 id="panelTopTitle">⭐ თვის საუკეთესო სპეციალისტები</h3>
                 <div id="topMastersList">
                     <div class="top-master-item"><span>შპს ალფა (ბუღალტერია)</span> <strong style="color:var(--success)">★ 5.0</strong></div>
                     <div class="top-master-item"><span>ი.მ გიორგი (IT)</span> <strong style="color:var(--success)">★ 4.9</strong></div>
@@ -443,14 +461,14 @@
 
         <div class="search-filter-container">
             <div class="form-group">
-                <label for="searchInput">ძებნა</label>
+                <label id="lblSearch" for="searchInput">ძებნა</label>
                 <input type="text" id="searchInput" class="form-control" placeholder="სათაური, აღწერა..." oninput="filterListings()">
             </div>
             
             <div class="form-group">
-                <label for="categoryFilter">კატეგორია</label>
+                <label id="lblCategory" for="categoryFilter">კატეგორია</label>
                 <select id="categoryFilter" class="form-control" onchange="filterListings()">
-                    <option value="">ყველა კატეგორია</option>
+                    <option value="" data-i18n="allCats">ყველა კატეგორია</option>
                     <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
                     <option value="IT / პროგრამირება">IT / პროგრამირება</option>
                     <option value="მშენებლობა / რემონტი">მშენებლობა / რემონტი</option>
@@ -459,9 +477,9 @@
             </div>
 
             <div class="form-group">
-                <label for="locationFilter">რეგიონი</label>
+                <label id="lblLocation" for="locationFilter">რეგიონი</label>
                 <select id="locationFilter" class="form-control" onchange="filterListings()">
-                    <option value="">ყველა რეგიონი</option>
+                    <option value="" data-i18n="allLocs">ყველა რეგიონი</option>
                     <option value="თბილისი">თბილისი</option>
                     <option value="აჭარის ა/რ">აჭარის ა/რ</option>
                     <option value="იმერეთი">იმერეთი</option>
@@ -471,16 +489,16 @@
             </div>
 
             <div class="form-group">
-                <label for="sortBy">სორტირება</label>
+                <label id="lblSort" for="sortBy">სორტირება</label>
                 <select id="sortBy" class="form-control" onchange="filterListings()">
-                    <option value="newest">უახლესი</option>
-                    <option value="price-asc">ფასი: ზრდადი</option>
-                    <option value="price-desc">ფასი: კლებადი</option>
+                    <option value="newest" data-i18n="sortNew">უახლესი</option>
+                    <option value="price-asc" data-i18n="sortAsc">ფასი: ზრდადი</option>
+                    <option value="price-desc" data-i18n="sortDesc">ფასი: კლებადი</option>
                 </select>
             </div>
 
             <div class="form-group" style="justify-content: flex-end;">
-                <button class="btn btn-outline" onclick="resetFilters()" style="height: 46px;">გასუფთავება</button>
+                <button id="btnClear" class="btn btn-outline" onclick="resetFilters()" style="height: 46px;">გასუფთავება</button>
             </div>
         </div>
 
@@ -488,19 +506,19 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Handy.ge. ყველა უფლება დაცულია. | <a onclick="openRulesModal()">საიტის წესები</a></p>
+        <p>&copy; 2026 Handy.ge. <span data-i18n="footerRights">ყველა უფლება დაცულია.</span> | <a onclick="openRulesModal()" data-i18n="rulesLink">საიტის წესები</a></p>
     </footer>
 
     <!-- დამატების მოდალი -->
     <div class="modal" id="addModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>ახალი განცხადება</h2>
+                <h2 data-i18n="modalAddTitle">ახალი განცხადება</h2>
                 <button class="close-btn" onclick="closeAddModal()">&times;</button>
             </div>
             <form onsubmit="addNewListing(event)">
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>სუბიექტის ტიპი</label>
+                    <label data-i18n="lblSubjType">სუბიექტის ტიპი</label>
                     <select id="newProviderType" class="form-control" required>
                         <option value="შპს">შპს (კომპანია)</option>
                         <option value="ი.მ">ი.მ (ინდივიდუალური მეწარმე)</option>
@@ -510,15 +528,15 @@
                     </select>
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>დასახელება / სახელი</label>
+                    <label data-i18n="lblSubjName">დასახელება / სახელი</label>
                     <input type="text" id="newProviderName" class="form-control" required placeholder="მაგ: შპს სერვისი / გიორგი">
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>სათაური</label>
+                    <label data-i18n="lblTitle">სათაური</label>
                     <input type="text" id="newTitle" class="form-control" required placeholder="მაგ: მთავარი ბუღალტერი">
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>კატეგორია</label>
+                    <label data-i18n="lblCategory">კატეგორია</label>
                     <select id="newCategory" class="form-control" required>
                         <option value="ფინანსები / სტატისტიკა">ფინანსები / სტატისტიკა</option>
                         <option value="IT / პროგრამირება">IT / პროგრამირება</option>
@@ -527,7 +545,7 @@
                     </select>
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>რეგიონი</label>
+                    <label data-i18n="lblLocation">რეგიონი</label>
                     <select id="newLocation" class="form-control" required>
                         <option value="თბილისი">თბილისი</option>
                         <option value="აჭარის ა/რ">აჭარის ა/რ</option>
@@ -537,22 +555,22 @@
                     </select>
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>ფოტო (სურვილისამებრ)</label>
+                    <label data-i18n="lblPhoto">ფოტო (სურვილისამებრ)</label>
                     <input type="file" id="newImage" class="form-control" accept="image/*">
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>აღწერა</label>
+                    <label data-i18n="lblDesc">აღწერა</label>
                     <textarea id="newDesc" class="form-control" rows="2" required placeholder="დეტალური ინფორმაცია..."></textarea>
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>საკონტაქტო (ტელეფონი / მეილი)</label>
+                    <label data-i18n="lblContact">საკონტაქტო (ტელეფონი / მეილი)</label>
                     <input type="text" id="newContact" class="form-control" required placeholder="599 XX XX XX">
                 </div>
                 <div class="form-group" style="margin-bottom: 1.2rem;">
-                    <label>ფასი (₾)</label>
+                    <label data-i18n="lblPrice">ფასი (₾)</label>
                     <input type="text" id="newPrice" class="form-control" required placeholder="1200">
                 </div>
-                <button type="submit" class="btn" style="width: 100%;">განცხადების გამოქვეყნება</button>
+                <button type="submit" class="btn" style="width: 100%;" data-i18n="btnPublish">განცხადების გამოქვეყნება</button>
             </form>
         </div>
     </div>
@@ -567,16 +585,16 @@
             <div class="detail-info">
                 <img id="detailImg" src="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; display: none; margin-bottom: 0.5rem;">
                 <span id="detailTag" class="card-tag">კატეგორია</span>
-                <p><strong>🏢 გამომცხადებელი:</strong> <span id="detailProvider" style="color: var(--accent); font-weight: 600;"></span></p>
-                <p><strong>📍 რეგიონი:</strong> <span id="detailLocation"></span></p>
-                <p><strong>💰 ფასი:</strong> <span id="detailPrice" style="color: var(--accent); font-weight: bold;"></span></p>
-                <p><strong>📝 აღწერა:</strong></p>
+                <p><strong data-i18n="lblProvider">🏢 გამომცხადებელი:</strong> <span id="detailProvider" style="color: var(--accent); font-weight: 600;"></span></p>
+                <p><strong data-i18n="lblLocation">📍 რეგიონი:</strong> <span id="detailLocation"></span></p>
+                <p><strong data-i18n="lblPrice">💰 ფასი:</strong> <span id="detailPrice" style="color: var(--accent); font-weight: bold;"></span></p>
+                <p><strong data-i18n="lblDesc">📝 აღწერა:</strong></p>
                 <p id="detailDesc" style="color: var(--text-muted); background: rgba(15, 23, 42, 0.6); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);"></p>
-                <p><strong>📞 კონტაქტი:</strong> <span id="detailContact" style="color: var(--text);"></span></p>
+                <p><strong data-i18n="lblContact">📞 კონტაქტი:</strong> <span id="detailContact" style="color: var(--text);"></span></p>
             </div>
             <div style="display: flex; gap: 1rem;">
-                <button class="btn" style="flex: 1;" onclick="openContactForm()">შეტყობინების გაგზავნა</button>
-                <button id="deleteBtn" class="btn btn-danger" style="display:none;" onclick="deleteCurrentListing()">წაშლა</button>
+                <button class="btn" style="flex: 1;" onclick="openContactForm()" data-i18n="btnMsg">შეტყობინების გაგზავნა</button>
+                <button id="deleteBtn" class="btn btn-danger" style="display:none;" onclick="deleteCurrentListing()" data-i18n="btnDelete">წაშლა</button>
             </div>
         </div>
     </div>
@@ -585,19 +603,19 @@
     <div class="modal" id="msgModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>მოწერე ავტორს</h2>
+                <h2 data-i18n="msgModalTitle">მოწერე ავტორს</h2>
                 <button class="close-btn" onclick="closeMsgModal()">&times;</button>
             </div>
             <form onsubmit="sendDirectMessage(event)">
                 <div class="form-group" style="margin-bottom: 0.8rem;">
-                    <label>შენი სახელი</label>
+                    <label data-i18n="msgYourName">შენი სახელი</label>
                     <input type="text" id="msgSender" class="form-control" required placeholder="სახელი...">
                 </div>
                 <div class="form-group" style="margin-bottom: 1.2rem;">
-                    <label>შეტყობინება</label>
+                    <label data-i18n="msgTextLbl">შეტყობინება</label>
                     <textarea id="msgText" class="form-control" rows="3" required placeholder="მოგესალმებით..."></textarea>
                 </div>
-                <button type="submit" class="btn" style="width: 100%;">გაგზავნა</button>
+                <button type="submit" class="btn" style="width: 100%;" data-i18n="btnSend">გაგზავნა</button>
             </form>
         </div>
     </div>
@@ -606,35 +624,35 @@
     <div class="modal" id="authModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>შესვლა / რეგისტრაცია</h2>
+                <h2 data-i18n="authTitle">შესვლა / რეგისტრაცია</h2>
                 <button class="close-btn" onclick="closeAuthModal()">&times;</button>
             </div>
             
             <div id="step1Container">
                 <form onsubmit="requestOtp(event)">
                     <div class="form-group" style="margin-bottom: 0.8rem;">
-                        <label>მობილური ნომერი ან ელ-ფოსტა</label>
+                        <label data-i18n="authContactLbl">მობილური ნომერი ან ელ-ფოსტა</label>
                         <input type="text" id="userContactInput" class="form-control" required placeholder="599XXXXXX">
                     </div>
                     <div class="form-group" style="margin-bottom: 1.2rem;">
-                        <label>შენი სახელი / კომპანია</label>
+                        <label data-i18n="authNameLbl">შენი სახელი / კომპანია</label>
                         <input type="text" id="userNameInput" class="form-control" required placeholder="გიორგი">
                     </div>
-                    <button type="submit" class="btn" style="width: 100%;">ერთჯერადი კოდის მიღება</button>
+                    <button type="submit" class="btn" style="width: 100%;" data-i18n="authBtnCode">ერთჯერადი კოდის მიღება</button>
                 </form>
             </div>
 
             <div id="step2Container" style="display: none;">
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-                    კოდი გაიგზავნა: <strong id="sentToText" style="color: var(--accent);"></strong>
+                    <span data-i18n="authCodeSent">კოდი გაიგზავნა:</span> <strong id="sentToText" style="color: var(--accent);"></strong>
                 </p>
                 <form onsubmit="verifyOtp(event)">
                     <div class="form-group" style="margin-bottom: 1.2rem;">
-                        <label>შეიყვანეთ 4-ნიშნა კოდი</label>
+                        <label data-i18n="authEnterCode">შეიყვანეთ 4-ნიშნა კოდი</label>
                         <input type="text" id="otpCodeInput" class="form-control" maxlength="4" required placeholder="1234" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem;">
                     </div>
-                    <button type="submit" class="btn" style="width: 100%;">კოდის დადასტურება</button>
-                    <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="backToStep1()">უკან</button>
+                    <button type="submit" class="btn" style="width: 100%;" data-i18n="authBtnVerify">კოდის დადასტურება</button>
+                    <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem;" onclick="backToStep1()" data-i18n="authBtnBack">უკან</button>
                 </form>
             </div>
         </div>
@@ -644,20 +662,159 @@
     <div class="modal" id="rulesModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>საიტის წესები და პირობები</h2>
+                <h2 data-i18n="rulesTitle">საიტის წესები და პირობები</h2>
                 <button class="close-btn" onclick="closeRulesModal()">&times;</button>
             </div>
             <div style="font-size: 0.95rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.8rem;">
-                <p>1. პლატფორმა Handy.ge წარმოადგენს სივრცეს მომსახურების მიმწოდებლებისა და დამკვეთების დასაკავშირებლად.</p>
-                <p>2. იკრძალება ყალბი ინფორმაციის, შეურაცხმყოფელი შინაარსის ან კანონსაწინააღმდეგო განცხადებების განთავსება.</p>
-                <p>3. ადმინისტრაცია იტოვებს უფლებას წაშალოს ნებისმიერი განცხადება, რომელიც არ შეესაბამება პლატფორმის სტანდარტებს.</p>
-                <p>4. მომხმარებელი პასუხისმგებელია მის მიერ მითითებულ საკონტაქტო მონაცემებსა და შემოთავაზებულ სერვისზე.</p>
+                <p data-i18n="rule1">1. პლატფორმა Handy.ge წარმოადგენს სივრცეს მომსახურების მიმწოდებლებისა და დამკვეთების დასაკავშირებლად.</p>
+                <p data-i18n="rule2">2. იკრძალება ყალბი ინფორმაციის, შეურაცხმყოფელი შინაარსის ან კანონსაწინააღმდეგო განცხადებების განთავსება.</p>
+                <p data-i18n="rule3">3. ადმინისტრაცია იტოვებს უფლებას წაშალოს ნებისმიერი განცხადება, რომელიც არ შეესაბამება პლატფორმის სტანდარტებს.</p>
+                <p data-i18n="rule4">4. მომხმარებელი პასუხისმგებელია მის მიერ მითითებულ საკონტაქტო მონაცემებსა და შემოთავაზებულ სერვისზე.</p>
             </div>
-            <button class="btn" onclick="closeRulesModal()" style="margin-top: 1rem;">გასაგებია</button>
+            <button class="btn" onclick="closeRulesModal()" style="margin-top: 1rem;" data-i18n="rulesClose">გასაგებია</button>
         </div>
     </div>
 
     <script>
+        const translations = {
+            ka: {
+                pageTitle: "Handy.ge - პროფესიონალური პლატფორმა",
+                heroTitle: "პროფესიონალური სერვისები და ვაკანსიები",
+                heroDesc: "იპოვე სანდო კომპანია, ხელოსანი ან სპეციალისტები შენს რეგიონში",
+                panelTipTitle: "💡 დღის სასარგებლო რჩევა",
+                panelTopTitle: "⭐ თვის საუკეთესო სპეციალისტები",
+                lblSearch: "ძებნა",
+                searchPlaceholder: "სათაური, აღწერა...",
+                lblCategory: "კატეგორია",
+                allCats: "ყველა კატეგორია",
+                lblLocation: "რეგიონი",
+                allLocs: "ყველა რეგიონი",
+                lblSort: "სორტირება",
+                sortNew: "უახლესი",
+                sortAsc: "ფასი: ზრდადი",
+                sortDesc: "ფასი: კლებადი",
+                btnClear: "გასუფთავება",
+                footerRights: "ყველა უფლება დაცულია.",
+                rulesLink: "საიტის წესები",
+                modalAddTitle: "ახალი განცხადება",
+                lblSubjType: "სუბიექტის ტიპი",
+                lblSubjName: "დასახელება / სახელი",
+                lblTitle: "სათაური",
+                lblPhoto: "ფოტო (სურვილისამებრ)",
+                lblDesc: "აღწერა",
+                lblContact: "საკონტაქტო (ტელეფონი / მეილი)",
+                lblPrice: "ფასი (₾)",
+                btnPublish: "განცხადების გამოქვეყნება",
+                lblProvider: "🏢 გამომცხადებელი:",
+                btnMsg: "შეტყობინების გაგზავნა",
+                btnDelete: "წაშლა",
+                msgModalTitle: "მოწერე ავტორს",
+                msgYourName: "შენი სახელი",
+                msgTextLbl: "შეტყობინება",
+                btnSend: "გაგზავნა",
+                authTitle: "შესვლა / რეგისტრაცია",
+                authContactLbl: "მობილური ნომერი ან ელ-ფოსტა",
+                authNameLbl: "შენი სახელი / კომპანია",
+                authBtnCode: "ერთჯერადი კოდის მიღება",
+                authCodeSent: "კოდი გაიგზავნა:",
+                authEnterCode: "შეიყვანეთ 4-ნიშნა კოდი",
+                authBtnVerify: "კოდის დადასტურება",
+                authBtnBack: "უკან",
+                rulesTitle: "საიტის წესები და პირობები",
+                rule1: "1. პლატფორმა Handy.ge წარმოადგენს სივრცეს მომსახურების მიმწოდებლებისა და დამკვეთების დასაკავშირებლად.",
+                rule2: "2. იკრძალება ყალბი ინფორმაციის, შეურაცხმყოფელი შინაარსის ან კანონსაწინააღმდეგო განცხადებების განთავსება.",
+                rule3: "3. ადმინისტრაცია იტოვებს უფლებას წაშალოს ნებისმიერი განცხადება, რომელიც არ შეესაბამება პლატფორმის სტანდარტებს.",
+                rule4: "4. მომხმარებელი პასუხისმგებელია მის მიერ მითითებულ საკონტაქტო მონაცემებსა და შემოთავაზებულ სერვისზე.",
+                rulesClose: "გასაგებია",
+                navAddBtn: "+ განცხადება",
+                navAuthBtn: "შესვლა / რეგისტრაცია",
+                navLogout: "გასვლა"
+            },
+            en: {
+                pageTitle: "Handy.ge - Professional Platform",
+                heroTitle: "Professional Services & Jobs",
+                heroDesc: "Find trusted companies, artisans, or specialists in your region",
+                panelTipTitle: "💡 Daily Useful Tip",
+                panelTopTitle: "⭐ Top Specialists of the Month",
+                lblSearch: "Search",
+                searchPlaceholder: "Title, description...",
+                lblCategory: "Category",
+                allCats: "All Categories",
+                lblLocation: "Region",
+                allLocs: "All Regions",
+                lblSort: "Sort By",
+                sortNew: "Newest",
+                sortAsc: "Price: Low to High",
+                sortDesc: "Price: High to Low",
+                btnClear: "Reset",
+                footerRights: "All rights reserved.",
+                rulesLink: "Terms & Conditions",
+                modalAddTitle: "New Listing",
+                lblSubjType: "Subject Type",
+                lblSubjName: "Name / Company",
+                lblTitle: "Title",
+                lblPhoto: "Photo (Optional)",
+                lblDesc: "Description",
+                lblContact: "Contact (Phone / Email)",
+                lblPrice: "Price (₾)",
+                btnPublish: "Publish Listing",
+                lblProvider: "🏢 Provider:",
+                btnMsg: "Send Message",
+                btnDelete: "Delete",
+                msgModalTitle: "Message Author",
+                msgYourName: "Your Name",
+                msgTextLbl: "Message",
+                btnSend: "Send",
+                authTitle: "Sign In / Register",
+                authContactLbl: "Phone Number or Email",
+                authNameLbl: "Your Name / Company",
+                authBtnCode: "Get One-Time Code",
+                authCodeSent: "Code sent to:",
+                authEnterCode: "Enter 4-digit code",
+                authBtnVerify: "Verify Code",
+                authBtnBack: "Back",
+                rulesTitle: "Terms & Conditions",
+                rule1: "1. Handy.ge is a platform connecting service providers and clients.",
+                rule2: "2. Posting false information, offensive content, or illegal ads is strictly prohibited.",
+                rule3: "3. Administration reserves the right to remove any listing that violates standards.",
+                rule4: "4. Users are fully responsible for their contact info and provided services.",
+                rulesClose: "Understood",
+                navAddBtn: "+ Listing",
+                navAuthBtn: "Sign In / Register",
+                navLogout: "Logout"
+            }
+        };
+
+        let currentLang = localStorage.getItem('handy_lang') || 'ka';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('handy_lang', lang);
+            document.getElementById('htmlRoot').lang = lang;
+            document.getElementById('langSwitch').value = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            document.getElementById('pageTitle').innerText = translations[lang].pageTitle;
+            document.getElementById('heroTitle').innerText = translations[lang].heroTitle;
+            document.getElementById('heroDesc').innerText = translations[lang].heroDesc;
+            document.getElementById('panelTipTitle').innerText = translations[lang].panelTipTitle;
+            document.getElementById('panelTopTitle').innerText = translations[lang].panelTopTitle;
+            document.getElementById('lblSearch').innerText = translations[lang].lblSearch;
+            document.getElementById('searchInput').placeholder = translations[lang].searchPlaceholder;
+            document.getElementById('lblCategory').innerText = translations[lang].lblCategory;
+            document.getElementById('lblLocation').innerText = translations[lang].lblLocation;
+            document.getElementById('lblSort').innerText = translations[lang].lblSort;
+            document.getElementById('btnClear').innerText = translations[lang].btnClear;
+
+            updateNav();
+        }
+
         const dailyTips = [
             "🛠️ ხელოსნის აყვანამდე ყოველთვის წინასწარ შეათანხმეთ არა მხოლოდ ფასი, არამედ ვადებიც.",
             "📊 მცირე ბიზნესის სტატუსის (1% გადასახადი) მისაღებად განაცხადი მარტივად ივსება rs.ge პორტალზე.",
@@ -693,18 +850,24 @@
         function updateNav() {
             const navRight = document.getElementById('navRightSection');
             if (!navRight) return;
+            const t = translations[currentLang];
+            let langSelectHtml = navRight.querySelector('select').outerHTML;
+
             if (currentUser) {
                 navRight.innerHTML = `
                     <span class="user-badge">👤 ${currentUser}</span>
-                    <button class="btn" onclick="openAddModal()">+ განცხადება</button>
-                    <button class="btn btn-outline" onclick="logout()">გასვლა</button>
+                    <button class="btn" onclick="openAddModal()">${t.navAddBtn}</button>
+                    <button class="btn btn-outline" onclick="logout()">${t.navLogout}</button>
+                    ${langSelectHtml}
                 `;
             } else {
                 navRight.innerHTML = `
-                    <button class="btn" onclick="openAddModal()">+ განცხადება</button>
-                    <button class="btn btn-outline" onclick="openAuthModal()">შესვლა / რეგისტრაცია</button>
+                    <button class="btn" onclick="openAddModal()">${t.navAddBtn}</button>
+                    <button class="btn btn-outline" onclick="openAuthModal()">${t.navAuthBtn}</button>
+                    ${langSelectHtml}
                 `;
             }
+            document.getElementById('langSwitch').value = currentLang;
         }
 
         function requestOtp(e) {
@@ -926,8 +1089,8 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            changeLanguage(currentLang);
             loadRandomTip();
-            updateNav();
             renderListings(listings);
         });
     </script>
