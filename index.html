@@ -29,10 +29,28 @@
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
+        /* 💡 ფონის ლამაზი მბინავი განათების ეფექტები (Glow Orbs) */
+        .bg-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            background: rgba(56, 189, 248, 0.07);
+            filter: blur(90px);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glow-1 { top: -100px; left: -100px; }
+        .glow-2 { bottom: -100px; right: -100px; background: rgba(14, 165, 233, 0.05); }
+
         header {
-            background-color: var(--card);
+            background-color: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -72,7 +90,7 @@
             border-radius: var(--radius);
             cursor: pointer;
             font-weight: 700;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, transform 0.1s;
             text-decoration: none;
             display: inline-block;
             font-size: 0.9rem;
@@ -80,6 +98,7 @@
 
         .btn:hover {
             background-color: var(--accent-hover);
+            transform: translateY(-1px);
         }
 
         .btn-outline {
@@ -102,6 +121,8 @@
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
+            position: relative;
+            z-index: 1;
         }
 
         .hero {
@@ -137,7 +158,8 @@
         }
 
         .panel-box {
-            background: var(--card);
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(8px);
             border: 1px solid var(--border);
             padding: 1.2rem;
             border-radius: var(--radius);
@@ -167,7 +189,8 @@
 
         /* ფილტრები და სორტირება */
         .search-filter-container {
-            background: var(--card);
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(8px);
             padding: 1.5rem;
             border-radius: var(--radius);
             border: 1px solid var(--border);
@@ -198,7 +221,7 @@
         .form-control {
             padding: 0.75rem;
             border: 1px solid var(--border);
-            background-color: #0f172a;
+            background-color: rgba(15, 23, 42, 0.8);
             color: var(--text);
             border-radius: var(--radius);
             font-size: 1rem;
@@ -219,19 +242,21 @@
         }
 
         .card {
-            background: var(--card);
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(8px);
             border-radius: var(--radius);
             overflow: hidden;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
             cursor: pointer;
         }
 
         .card:hover {
             transform: translateY(-3px);
             border-color: var(--accent);
+            box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.1);
         }
 
         .card-img {
@@ -307,7 +332,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -384,6 +410,10 @@
     </style>
 </head>
 <body>
+
+    <!-- ფონის დეკორატიული განათებები -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
 
     <header>
         <div class="navbar">
@@ -545,7 +575,7 @@
                 <p><strong>📍 რეგიონი:</strong> <span id="detailLocation"></span></p>
                 <p><strong>💰 ფასი:</strong> <span id="detailPrice" style="color: var(--accent); font-weight: bold;"></span></p>
                 <p><strong>📝 აღწერა:</strong></p>
-                <p id="detailDesc" style="color: var(--text-muted); background: #090d16; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);"></p>
+                <p id="detailDesc" style="color: var(--text-muted); background: rgba(15, 23, 42, 0.6); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);"></p>
                 <p><strong>📞 კონტაქტი:</strong> <span id="detailContact" style="color: var(--text);"></span></p>
             </div>
             <div style="display: flex; gap: 1rem;">
@@ -851,7 +881,7 @@
         function addNewListing(e) {
             e.preventDefault();
             const fileInput = document.getElementById('newImage');
-            const rawPrice = document.getElementById('newPrice').value;
+            const rawPrice = document.getElementById('newPrice'].value;
             const cleanPrice = Number(rawPrice.replace(/[^\d.-]/g, '')) || 0;
             
             const createItem = (imageUrl) => {
@@ -860,7 +890,7 @@
                     userId: currentUser,
                     providerType: document.getElementById('newProviderType').value,
                     providerName: document.getElementById('newProviderName').value,
-                    title: document.getElementById('newTitle').value,
+                    title: document.getElementById('newTitle',).value,
                     category: document.getElementById('newCategory').value,
                     location: document.getElementById('newLocation').value,
                     desc: document.getElementById('newDesc').value,
