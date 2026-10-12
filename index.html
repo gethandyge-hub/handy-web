@@ -100,14 +100,14 @@
 
         main {
             max-width: 1200px;
-            margin: 1.5rem auto 2rem auto;
+            margin: 2rem auto;
             padding: 0 1rem;
         }
 
         .hero {
             text-align: center;
             margin-bottom: 2rem;
-            padding-top: 0.5rem;
+            padding-top: 1.5rem;
         }
 
         .hero h1 {
@@ -122,7 +122,7 @@
             font-size: 0.95rem;
         }
 
-        /* 💡 დღის რჩევის და ტოპ ოსტატების ბლოკი */
+        /* 💡 დღის რჩევის და თვის ლიდერების ბლოკი */
         .info-panels {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -402,12 +402,12 @@
         <div class="info-panels">
             <div class="panel-box">
                 <h3>💡 დღის სასარგებლო რჩევა</h3>
-                <p id="dailyTipText">🛠️ ხელოსნის აყვანამდე ყოველთვის წინასწარ შეათანხმეთ არა მხოლოდ ფასი, არამედ ვადებიც.</p>
+                <p id="dailyTipText">იტვირთება რჩევა...</p>
             </div>
             <div class="panel-box">
                 <h3>⭐ თვის საუკეთესო სპეციალისტები</h3>
                 <div id="topMastersList">
-                    <div class="top-master-item"><span>შპს ნოვა (ბუღალტერია)</span> <strong style="color:var(--success)">★ 5.0</strong></div>
+                    <div class="top-master-item"><span>შპს ალფა (ბუღალტერია)</span> <strong style="color:var(--success)">★ 5.0</strong></div>
                     <div class="top-master-item"><span>ი.მ გიორგი (IT)</span> <strong style="color:var(--success)">★ 4.9</strong></div>
                 </div>
             </div>
@@ -485,7 +485,7 @@
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>დასახელება / სახელი</label>
-                    <input type="text" id="newProviderName" class="form-control" required placeholder="მაგ: შპს ნოვა / გიორგი">
+                    <input type="text" id="newProviderName" class="form-control" required placeholder="მაგ: შპს სერვისი / გიორგი">
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>სათაური</label>
@@ -520,7 +520,7 @@
                 </div>
                 <div class="form-group" style="margin-bottom: 0.8rem;">
                     <label>საკონტაქტო (ტელეფონი / მეილი)</label>
-                    <input type="text" id="newContact" class="form-control" required placeholder="599 00 00 00">
+                    <input type="text" id="newContact" class="form-control" required placeholder="599 XX XX XX">
                 </div>
                 <div class="form-group" style="margin-bottom: 1.2rem;">
                     <label>ფასი (₾)</label>
@@ -588,7 +588,7 @@
                 <form onsubmit="requestOtp(event)">
                     <div class="form-group" style="margin-bottom: 0.8rem;">
                         <label>მობილური ნომერი ან ელ-ფოსტა</label>
-                        <input type="text" id="userContactInput" class="form-control" required placeholder="599122334">
+                        <input type="text" id="userContactInput" class="form-control" required placeholder="599XXXXXX">
                     </div>
                     <div class="form-group" style="margin-bottom: 1.2rem;">
                         <label>შენი სახელი / კომპანია</label>
@@ -650,8 +650,8 @@
         }
 
         let listings = JSON.parse(localStorage.getItem('handy_listings')) || [
-            { id: 1, userId: "შპს ნოვა", providerType: "შპს", providerName: "შპს ნოვა", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: 1200, image: "", date: Date.now() - 10000 },
-            { id: 2, userId: "ი.მ გიორგი გორგია", providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: 500, image: "", date: Date.now() }
+            { id: 1, userId: "შპს ალფა სერვისი", providerType: "შპს", providerName: "შპს ალფა სერვისი", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 00 00 00", price: 1200, image: "", date: Date.now() - 10000 },
+            { id: 2, userId: "ი.მ გიორგი გორგია", providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "info@example.ge", price: 500, image: "", date: Date.now() }
         ];
 
         let currentUser = localStorage.getItem('handy_user') || null;
