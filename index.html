@@ -6,45 +6,42 @@
     <title id="pageTitle">Handy.ge - პროფესიონალური პლატფორმა</title>
     <style>
         :root {
-            --card: rgba(30, 41, 59, 0.85);
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
+            --bg: #080808;
+            --card: #121212;
+            --card-hover: #18181a;
+            --text: #ffffff;
+            --text-muted: #8e8e93;
             --accent: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --border: rgba(51, 65, 85, 0.6);
-            --radius: 12px;
-            --danger: #f43f5e;
-            --success: #10b981;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --border: #222224;
+            --border-hover: rgba(56, 189, 248, 0.5);
+            --radius: 14px;
+            --danger: #ff453a;
+            --success: #30d158;
+            --btn-main: #ffffff;
+            --btn-main-text: #000000;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 💡 ცოცხალი, დინამიკური გრადიენტული ანიმაცია ფონზე */
         body {
-            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f2744, #0f172a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-color: var(--bg);
             color: var(--text);
-            line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
+            line-height: 1.5;
             min-height: 100vh;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            overflow-x: hidden;
         }
 
         header {
-            background-color: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
+            background-color: rgba(8, 8, 8, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -54,152 +51,187 @@
         .navbar {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0.8rem 1rem;
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 1rem;
         }
 
         .logo {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--accent);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
             text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: text-shadow 0.3s ease, color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: var(--accent);
+            text-shadow: 0 0 12px var(--accent-glow);
         }
 
         .nav-right {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.6rem;
             align-items: center;
-            flex-wrap: wrap;
         }
 
+        /* ✨ Framer-ის სტილის ანიმაციური ღილაკები */
         .btn {
-            background-color: var(--accent);
-            color: #0f172a;
-            border: none;
-            padding: 0.5rem 1rem;
+            background-color: var(--btn-main);
+            color: var(--btn-main-text);
+            border: 1px solid var(--btn-main);
+            padding: 0.55rem 1.1rem;
             border-radius: var(--radius);
             cursor: pointer;
-            font-weight: 700;
-            transition: background-color 0.2s, transform 0.1s;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             text-decoration: none;
-            display: inline-block;
-            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px var(--accent-glow);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: scale(0.96);
         }
 
         .btn-outline {
-            background-color: transparent;
-            color: var(--accent);
-            border: 2px solid var(--accent);
+            background-color: #161618;
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
         .btn-outline:hover {
-            background-color: var(--accent);
-            color: #0f172a;
+            background-color: #1c1c20;
+            border-color: var(--border-hover);
+            color: var(--accent);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
         }
 
         .btn-danger {
             background-color: var(--danger);
             color: white;
+            border: none;
+        }
+        .btn-danger:hover {
+            box-shadow: 0 0 20px rgba(255, 69, 58, 0.4);
         }
 
         main {
             max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            position: relative;
-            z-index: 1;
+            margin: 0 auto;
+            padding: 2.5rem 1rem;
         }
 
         .hero {
             text-align: center;
-            margin-bottom: 2rem;
-            padding-top: 1.5rem;
+            margin-bottom: 3rem;
+            padding-top: 1rem;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .hero h1 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.8rem;
             color: var(--text);
-            line-height: 1.3;
+            line-height: 1.2;
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* ინფორმაციის პანელები */
         .info-panels {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
+            gap: 1.2rem;
             margin-bottom: 2rem;
         }
 
         @media (max-width: 768px) {
-            .info-panels {
-                grid-template-columns: 1fr;
-            }
+            .hero h1 { font-size: 1.8rem; }
+            .info-panels { grid-template-columns: 1fr; }
         }
 
         .panel-box {
             background: var(--card);
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-            padding: 1.2rem;
+            padding: 1.25rem;
             border-radius: var(--radius);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .panel-box:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
         }
 
         .panel-box h3 {
-            font-size: 1rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.6rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .panel-box p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            font-size: 0.95rem;
+            color: var(--text);
+            font-weight: 500;
         }
 
         .top-master-item {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            padding: 0.3rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.2s;
         }
+        .top-master-item:last-child { border-bottom: none; }
+        .top-master-item:hover { color: var(--accent); }
 
-        /* ფილტრები და სორტირება */
+        /* ფილტრები */
         .search-filter-container {
             background: var(--card);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             display: grid;
             grid-template-columns: 2fr 1.5fr 1fr 1fr auto;
-            gap: 1rem;
+            gap: 0.8rem;
             margin-bottom: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: border-color 0.3s ease;
+        }
+
+        .search-filter-container:focus-within {
+            border-color: var(--border-hover);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.1);
         }
 
         @media (max-width: 900px) {
-            .search-filter-container {
-                grid-template-columns: 1fr;
-            }
+            .search-filter-container { grid-template-columns: 1fr; }
         }
 
         .form-group {
@@ -209,58 +241,65 @@
         }
 
         .form-group label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-muted);
         }
 
         .form-control {
-            padding: 0.75rem;
+            padding: 0.65rem 0.8rem;
             border: 1px solid var(--border);
-            background-color: rgba(15, 23, 42, 0.7);
+            background-color: #161618;
             color: var(--text);
-            border-radius: var(--radius);
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 0.92rem;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.25s ease;
             width: 100%;
         }
 
         .form-control:focus {
             border-color: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+            background-color: #1a1a1d;
         }
 
-        /* ბადე და ბარათები */
+        /* ✨ Framer-ის ინტერაქტიული ბარათები */
         .listings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.2rem;
         }
 
         .card {
             background: var(--card);
-            backdrop-filter: blur(10px);
             border-radius: var(--radius);
             overflow: hidden;
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
         .card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
-            box-shadow: 0 12px 40px 0 rgba(56, 189, 248, 0.15);
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            background: var(--card-hover);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15);
         }
 
         .card-img {
             width: 100%;
-            height: 160px;
+            height: 150px;
             object-fit: cover;
-            background: #090d16;
+            background: #18181b;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.03);
         }
 
         .card-body {
@@ -273,24 +312,31 @@
 
         .card-tag {
             align-self: flex-start;
-            background-color: rgba(56, 189, 248, 0.1);
-            color: var(--accent);
-            font-size: 0.75rem;
-            font-weight: 700;
+            background-color: #1e1e22;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 600;
             padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            text-transform: uppercase;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover .card-tag {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .card-title {
-            font-size: 1.15rem;
-            font-weight: bold;
+            font-size: 1.1rem;
+            font-weight: 700;
             color: var(--text);
+            letter-spacing: -0.01em;
         }
 
         .card-desc {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             flex-grow: 1;
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -300,8 +346,8 @@
 
         .card-provider {
             font-size: 0.8rem;
-            color: var(--accent);
-            font-weight: 600;
+            color: #a1a1aa;
+            font-weight: 500;
         }
 
         .card-footer {
@@ -316,12 +362,17 @@
         }
 
         .card-price {
-            font-weight: bold;
-            color: var(--accent);
-            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            font-size: 1.05rem;
+            transition: color 0.2s ease;
         }
 
-        /* მოდალური ფანჯრები */
+        .card:hover .card-price {
+            color: var(--accent);
+        }
+
+        /* ✨ ანიმაციური მოდალები */
         .modal {
             display: none;
             position: fixed;
@@ -329,29 +380,40 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
             padding: 1rem;
+            animation: fadeIn 0.25s ease;
         }
 
         .modal-content {
-            background: rgba(30, 41, 59, 0.95);
-            backdrop-filter: blur(12px);
+            background: #141416;
             border: 1px solid var(--border);
-            padding: 2rem;
+            padding: 1.8rem;
             border-radius: var(--radius);
             width: 100%;
-            max-width: 550px;
+            max-width: 520px;
             display: flex;
             flex-direction: column;
             gap: 1rem;
             max-height: 90vh;
             overflow-y: auto;
             color: var(--text);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.15);
+            animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.94); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         .modal-header {
@@ -363,58 +425,56 @@
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
             color: var(--text-muted);
+            transition: color 0.2s, transform 0.2s;
         }
 
-        .close-btn:hover {
-            color: var(--text);
-        }
+        .close-btn:hover { color: var(--accent); transform: scale(1.1); }
 
         .detail-info {
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
-            margin-bottom: 1rem;
         }
 
         .user-badge {
-            background: rgba(56, 189, 248, 0.15);
-            padding: 0.4rem 0.8rem;
+            background: #1e1e22;
+            border: 1px solid var(--border);
+            padding: 0.35rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.85rem;
-            color: var(--accent);
+            font-size: 0.82rem;
+            color: var(--text);
             font-weight: 600;
         }
 
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem 1rem;
             color: var(--text-muted);
             border-top: 1px solid var(--border);
-            margin-top: 3rem;
-            font-size: 0.9rem;
+            margin-top: 4rem;
+            font-size: 0.85rem;
         }
 
         footer a {
-            color: var(--accent);
-            text-decoration: none;
-            cursor: pointer;
-            margin: 0 0.5rem;
-        }
-        footer a:hover {
+            color: var(--text);
             text-decoration: underline;
+            cursor: pointer;
+            margin: 0 0.4rem;
+            transition: color 0.2s;
         }
+        footer a:hover { color: var(--accent); }
     </style>
 </head>
 <body>
 
     <header>
         <div class="navbar">
-            <a href="#" class="logo">Handy.ge 🌑</a>
+            <a href="#" class="logo">Handy.ge</a>
             <div class="nav-right" id="navRightSection">
-                <select id="langSwitch" class="form-control" style="width: auto; padding: 0.3rem 0.5rem; font-size: 0.85rem;" onchange="changeLanguage(this.value)">
+                <select id="langSwitch" class="form-control" style="width: auto; padding: 0.3rem 0.5rem; font-size: 0.82rem;" onchange="changeLanguage(this.value)">
                     <option value="ka">ქართული</option>
                     <option value="en">English</option>
                 </select>
@@ -481,7 +541,7 @@
             </div>
 
             <div class="form-group" style="justify-content: flex-end;">
-                <button id="btnClear" class="btn btn-outline" onclick="resetFilters()" style="height: 46px;">გასუფთავება</button>
+                <button id="btnClear" class="btn btn-outline" onclick="resetFilters()" style="height: 38px;">გასუფთავება</button>
             </div>
         </div>
 
@@ -568,14 +628,14 @@
             <div class="detail-info">
                 <img id="detailImg" src="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px; display: none; margin-bottom: 0.5rem;">
                 <span id="detailTag" class="card-tag">კატეგორია</span>
-                <p><strong data-i18n="lblProvider">🏢 გამომცხადებელი:</strong> <span id="detailProvider" style="color: var(--accent); font-weight: 600;"></span></p>
+                <p><strong data-i18n="lblProvider">🏢 გამომცხადებელი:</strong> <span id="detailProvider" style="color: var(--text); font-weight: 600;"></span></p>
                 <p><strong data-i18n="lblLocation">📍 რეგიონი:</strong> <span id="detailLocation"></span></p>
                 <p><strong data-i18n="lblPrice">💰 ფასი:</strong> <span id="detailPrice" style="color: var(--accent); font-weight: bold;"></span></p>
                 <p><strong data-i18n="lblDesc">📝 აღწერა:</strong></p>
-                <p id="detailDesc" style="color: var(--text-muted); background: rgba(15, 23, 42, 0.6); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);"></p>
+                <p id="detailDesc" style="color: var(--text-muted); background: #18181b; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border);"></p>
                 <p><strong data-i18n="lblContact">📞 კონტაქტი:</strong> <span id="detailContact" style="color: var(--text);"></span></p>
             </div>
-            <div style="display: flex; gap: 1rem;">
+            <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
                 <button class="btn" style="flex: 1;" onclick="openContactForm()" data-i18n="btnMsg">შეტყობინების გაგზავნა</button>
                 <button id="deleteBtn" class="btn btn-danger" style="display:none;" onclick="deleteCurrentListing()" data-i18n="btnDelete">წაშლა</button>
             </div>
@@ -627,7 +687,7 @@
 
             <div id="step2Container" style="display: none;">
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-                    <span data-i18n="authCodeSent">კოდი გაიგზავნა:</span> <strong id="sentToText" style="color: var(--accent);"></strong>
+                    <span data-i18n="authCodeSent">კოდი გაიგზავნა:</span> <strong id="sentToText" style="color: var(--text);"></strong>
                 </p>
                 <form onsubmit="verifyOtp(event)">
                     <div class="form-group" style="margin-bottom: 1.2rem;">
@@ -648,7 +708,7 @@
                 <h2 data-i18n="rulesTitle">საიტის წესები და პირობები</h2>
                 <button class="close-btn" onclick="closeRulesModal()">&times;</button>
             </div>
-            <div style="font-size: 0.95rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.8rem;">
+            <div style="font-size: 0.92rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.8rem;">
                 <p data-i18n="rule1">1. პლატფორმა Handy.ge წარმოადგენს სივრცეს მომსახურების მიმწოდებლებისა და დამკვეთების დასაკავშირებლად.</p>
                 <p data-i18n="rule2">2. იკრძალება ყალბი ინფორმაციის, შეურაცხმყოფელი შინაარსის ან კანონსაწინააღმდეგო განცხადებების განთავსება.</p>
                 <p data-i18n="rule3">3. ადმინისტრაცია იტოვებს უფლებას წაშალოს ნებისმიერი განცხადება, რომელიც არ შეესაბამება პლატფორმის სტანდარტებს.</p>
@@ -710,60 +770,60 @@
                 rule4: "4. მომხმარებელი პასუხისმგებელია მის მიერ მითითებულ საკონტაქტო მონაცემებსა და შემოთავაზებულ სერვისზე.",
                 rulesClose: "გასაგებია",
                 navAddBtn: "+ განცხადება",
-                navAuthBtn: "შესვლა / რეგისტრაცია",
+                navAuthBtn: "შესვლა",
                 navLogout: "გასვლა"
             },
             en: {
-                pageTitle: "Handy.ge - Professional Platform",
-                heroTitle: "Professional Services & Jobs",
-                heroDesc: "Find trusted companies, artisans, or specialists in your region",
-                panelTipTitle: "💡 Daily Useful Tip",
-                panelTopTitle: "⭐ Top Specialists of the Month",
+                pageTitle: "Handy.ge - Professional Services",
+                heroTitle: "Professional Services & Careers",
+                heroDesc: "Find verified companies, artisans, and specialists in your area",
+                panelTipTitle: "💡 Daily Tip",
+                panelTopTitle: "⭐ Top Specialists",
                 lblSearch: "Search",
-                searchPlaceholder: "Title, description...",
+                searchPlaceholder: "Title, keywords...",
                 lblCategory: "Category",
                 allCats: "All Categories",
                 lblLocation: "Region",
                 allLocs: "All Regions",
-                lblSort: "Sort By",
+                lblSort: "Sort",
                 sortNew: "Newest",
                 sortAsc: "Price: Low to High",
                 sortDesc: "Price: High to Low",
                 btnClear: "Reset",
                 footerRights: "All rights reserved.",
-                rulesLink: "Terms & Conditions",
+                rulesLink: "Terms of Service",
                 modalAddTitle: "New Listing",
                 lblSubjType: "Subject Type",
                 lblSubjName: "Name / Company",
                 lblTitle: "Title",
                 lblPhoto: "Photo (Optional)",
                 lblDesc: "Description",
-                lblContact: "Contact (Phone / Email)",
+                lblContact: "Contact Info",
                 lblPrice: "Price (₾)",
-                btnPublish: "Publish Listing",
+                btnPublish: "Publish",
                 lblProvider: "🏢 Provider:",
                 btnMsg: "Send Message",
                 btnDelete: "Delete",
-                msgModalTitle: "Message Author",
+                msgModalTitle: "Contact Author",
                 msgYourName: "Your Name",
                 msgTextLbl: "Message",
                 btnSend: "Send",
                 authTitle: "Sign In / Register",
-                authContactLbl: "Phone Number or Email",
+                authContactLbl: "Phone or Email",
                 authNameLbl: "Your Name / Company",
                 authBtnCode: "Get One-Time Code",
                 authCodeSent: "Code sent to:",
                 authEnterCode: "Enter 4-digit code",
                 authBtnVerify: "Verify Code",
                 authBtnBack: "Back",
-                rulesTitle: "Terms & Conditions",
-                rule1: "1. Handy.ge is a platform connecting service providers and clients.",
-                rule2: "2. Posting false information, offensive content, or illegal ads is strictly prohibited.",
-                rule3: "3. Administration reserves the right to remove any listing that violates standards.",
-                rule4: "4. Users are fully responsible for their contact info and provided services.",
-                rulesClose: "Understood",
+                rulesTitle: "Terms of Service",
+                rule1: "1. Handy.ge is a marketplace platform connecting specialists with clients.",
+                rule2: "2. Posting illegal or fraudulent services is strictly forbidden.",
+                rule3: "3. Management reserves the right to remove non-compliant listings.",
+                rule4: "4. Users carry full responsibility for provided information and services.",
+                rulesClose: "I Agree",
                 navAddBtn: "+ Listing",
-                navAuthBtn: "Sign In / Register",
+                navAuthBtn: "Sign In",
                 navLogout: "Logout"
             }
         };
