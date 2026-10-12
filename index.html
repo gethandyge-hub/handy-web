@@ -436,7 +436,7 @@
                 </div>
                 <div class="form-group" style="margin-bottom: 1.2rem;">
                     <label>ფასი (₾)</label>
-                    <input type="text" id="newPrice" class="form-control" required placeholder="1200 ₾">
+                    <input type="text" id="newPrice" class="form-control" required placeholder="1200">
                 </div>
                 <button type="submit" class="btn" style="width: 100%;">განცხადების გამოქვეყნება</button>
             </form>
@@ -488,7 +488,7 @@
         </div>
     </div>
 
-    <!-- შესვლის / რეგისტრაციის მოდალი (ტელეფონი ან მეილი + OTP კოდი) -->
+    <!-- შესვლის / რეგისტრაციის მოდალი -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -496,7 +496,6 @@
                 <button class="close-btn" onclick="closeAuthModal()">&times;</button>
             </div>
             
-            <!-- ნაბიჯი 1: ტელეფონის ან მეილის შეყვანა -->
             <div id="step1Container">
                 <form onsubmit="requestOtp(event)">
                     <div class="form-group" style="margin-bottom: 0.8rem;">
@@ -511,7 +510,6 @@
                 </form>
             </div>
 
-            <!-- ნაბიჯი 2: კოდის დადასტურება -->
             <div id="step2Container" style="display: none;">
                 <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
                     ერთჯერადი კოდი გაიგზავნა მითითებულ მისამართზე/ნომერზე: <strong id="sentToText" style="color: var(--accent);"></strong>
@@ -531,8 +529,8 @@
 
     <script>
         let listings = JSON.parse(localStorage.getItem('handy_listings')) || [
-            { id: 1, userId: "admin", providerType: "შპს", providerName: "შპს ნოვა", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: 1200, image: "", date: Date.now() - 10000 },
-            { id: 2, userId: "admin", providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: 500, image: "", date: Date.now() }
+            { id: 1, userId: "შპს ნოვა", providerType: "შპს", providerName: "შპს ნოვა", title: "მთავარი ბუღალტრის მომსახურება", category: "ფინანსები / სტატისტიკა", location: "თბილისი", desc: "სრული საბუღალტრო მომსახურება და დეკლარაციები.", contact: "599 11 22 33", price: 1200, image: "", date: Date.now() - 10000 },
+            { id: 2, userId: "ი.მ გიორგი გორგია", providerType: "ი.მ", providerName: "ი.მ გიორგი გორგია", title: "ვებ-აპლიკაციების შემუშავება", category: "IT / პროგრამირება", location: "დისტანციური", desc: "თანამედროვე ვებსაიტების აწყობა ინდივიდუალური დაკვეთით.", contact: "dev@mail.ge", price: 500, image: "", date: Date.now() }
         ];
 
         let currentUser = localStorage.getItem('handy_user') || null;
@@ -569,7 +567,6 @@
             
             generatedOtp = Math.floor(1000 + Math.random() * 9000).toString();
             
-            // სიმულაცია: ეკრანზე გამოაქვს შეტყობინება კოდით (ვითომ SMS ან Email მოუვიდა)
             alert(`[სიმულაცია - SMS / Email]\nთქვენი ერთჯერადი კოდია: ${generatedOtp}`);
 
             document.getElementById('sentToText').innerText = tempContact;
@@ -732,6 +729,8 @@
         function addNewListing(e) {
             e.preventDefault();
             const fileInput = document.getElementById('newImage');
+            const rawPrice = document.getElementById('newPrice').value;
+            const cleanPrice = Number(rawPrice.replace(/[^\d.-]/g, '')) || 0;
             
             const createItem = (imageUrl) => {
                 const newObj = {
@@ -744,7 +743,7 @@
                     location: document.getElementById('newLocation').value,
                     desc: document.getElementById('newDesc').value,
                     contact: document.getElementById('newContact').value,
-                    price: Number(document.getElementById('newPrice').value) || 0,
+                    price: cleanPrice,
                     image: imageUrl || '',
                     date: Date.now()
                 };
