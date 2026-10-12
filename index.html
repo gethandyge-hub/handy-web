@@ -24,11 +24,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* 💡 სუფთა, დინამიკური ფონი ფოტოთი და მცურავი ანიმაციით */
+        /* 💡 ცოცხალი, დინამიკური გრადიენტული ანიმაცია ფონზე */
         body {
-            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95)), 
-                        url('https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f2744, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: var(--text);
             line-height: 1.6;
             position: relative;
@@ -36,24 +36,10 @@
             min-height: 100vh;
         }
 
-        /* ფონის ნაზი მოძრავი ანიმაცია სიცოცხლისთვის */
-        @keyframes floatAnimation {
-            0% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-15px) scale(1.03); }
-            100% { transform: translateY(0px) scale(1); }
-        }
-
-        .animated-bg-shape {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, rgba(15, 23, 42, 0) 70%);
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: -1;
-            pointer-events: none;
-            animation: floatAnimation 8s ease-in-out infinite;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         header {
@@ -423,9 +409,6 @@
     </style>
 </head>
 <body>
-
-    <!-- ფონის ანიმაციური ელემენტი -->
-    <div class="animated-bg-shape"></div>
 
     <header>
         <div class="navbar">
